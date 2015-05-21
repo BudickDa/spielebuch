@@ -1,0 +1,39 @@
+<template name="ApplicationLayout">
+    <nav>
+        <div class="nav-wrapper red darken-3">
+            {{> yield "topMenu"}}
+        </div>
+    </nav>
+    {{> yield}}
+</template>
+
+
+<template name="topMenu">
+
+</template>
+
+<template name="topMenuBack">
+    <a href="/" class="btn-floating btn-large waves-effect waves-light red darken-3">
+        <i class="mdi-navigation-arrow-back"></i>
+    </a>
+</template>
+
+<template name="loading">
+    <div class="row">
+        <div class="col s2 offset-s5">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

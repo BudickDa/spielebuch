@@ -1,0 +1,35 @@
+<template name="book">
+    <div class="container">
+        {{#if criticalTimingActive}}
+            <div class="progress">
+                <div class="determinate  red darken-4" style="width: {{criticalTiming}}%"></div>
+            </div>
+        {{/if}}
+        {{#if normalTimingActive}}
+            <div class="progress">
+                <div class="determinate  blue darken-4" style="width: {{normalTiming}}%"></div>
+            </div>
+        {{/if}}
+        <h1>{{actionText}}</h1>
+
+        <p>{{mainText}}</p>
+
+        {{#if focusTextActive}}
+            <div>{{focusText}}</div>
+        {{/if}}
+    </div>
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col m6 s12">
+                    {{>inventory}}
+                </div>
+                <div class="col m6 s12">
+                    {{statusText}}
+                </div>
+            </div>
+        </div>
+    </footer>
+</template>
+
+
