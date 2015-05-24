@@ -1,35 +1,52 @@
 <template name="book">
-    <div class="container">
-        {{#if criticalTimingActive}}
-            <div class="progress">
-                <div class="determinate  red darken-4" style="width: {{criticalTiming}}%"></div>
-            </div>
-        {{/if}}
-        {{#if normalTimingActive}}
-            <div class="progress">
-                <div class="determinate  blue darken-4" style="width: {{normalTiming}}%"></div>
-            </div>
-        {{/if}}
-        <h1>{{actionText}}</h1>
-
-        <p>{{mainText}}</p>
-
-        {{#if focusTextActive}}
-            <div>{{focusText}}</div>
-        {{/if}}
-    </div>
-    <footer class="page-footer">
+    <main>
         <div class="container">
-            <div class="row">
-                <div class="col m6 s12">
-                    {{>inventory}}
+            {{#if criticalTimingActive}}
+                <div class="progress">
+                    <div class="determinate  red darken-4" style="width: {{criticalTiming}}%"></div>
                 </div>
-                <div class="col m6 s12">
-                    {{statusText}}
+            {{/if}}
+            {{#if normalTimingActive}}
+                <div class="progress">
+                    <div class="determinate  blue darken-4" style="width: {{normalTiming}}%"></div>
+                </div>
+            {{/if}}
+            <div id="action-text">
+                <h2>{{actionText}}</h2>
+            </div>
+
+            <p>{{{mainText}}}</p>
+
+            {{#if focusTextActive}}
+                <div id="focus-text">{{focusText}}</div>
+            {{/if}}
+        </div>
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col m6 s12">
+                        <a href="#" id="backpack">Rucksack</a>
+                    </div>
+                    <div class="col m6 s12">
+                        {{statusText}}
+                    </div>
                 </div>
             </div>
+        </footer>
+
+        <div id="mousedown">
+            <!-- id is in camelCase, because it is mapped directly to a JavaScript-Object -->
+            <div class="white-box" id="center"></div>
+            <div class="white-box" id="bottom"></div>
+            <div class="white-box" id="up"></div>
+            <div class="white-box" id="left"></div>
+            <div class="white-box" id="leftUp"></div>
+            <div class="white-box" id="leftBottom"></div>
+            <div class="white-box" id="right"></div>
+            <div class="white-box" id="rightUp"></div>
+            <div class="white-box" id="rightBottom"></div>
         </div>
-    </footer>
+    </main>
 </template>
 
 

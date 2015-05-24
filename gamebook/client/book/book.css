@@ -1,0 +1,81 @@
+/*Buttons on mousedown on keyword*/
+#mousedown {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    display:none;
+}
+.white-box {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.white-box:hover{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+/*Positioning of buttons on mousedown*/
+#center{
+    display:block;
+    top: 40px;
+    left: 40px;
+}
+#bottom{
+    left: 40px;
+    top: 60px;
+}
+#upBox{
+    left: 40px;
+    top:-40px;
+}
+
+#left{
+    top: -20px;
+    left: 0;
+}
+#leftUp{
+    top: -62px;
+    left: 0;
+}
+#leftBottom{
+    top: -38px;
+    left: 0;
+}
+#right{
+    top: -80px;
+    left: 80px;
+}
+#rightUp{
+    top: -122px;
+    left: 80px;
+}
+#rightBottom{
+    top: -98px;
+    left: 80px;
+}
+
+
+/*Position of focus text*/
+#focus-text{
+    position: absolute;
+    width: 80%;
+    top: 40vh;
+    text-align: center;
+    font-size: 1.5em;
+    background-color: #ffffff;
+    border: 1px solid #C62828;
+    border-radius: 15px;
+}
+#action-text{
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    text-align: center;
+}
+#action-text h2{
+    margin:0;
+    padding: 0;
+    color: white;
+    font-size: 45px;
+}

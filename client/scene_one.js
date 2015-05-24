@@ -1,0 +1,1 @@
+Session.set('mainText', 'Beispieltext <a href=\"#\" id=\"keyword\" data-objectid=\"12\">Keyword</a>, und noch mehr Text');
