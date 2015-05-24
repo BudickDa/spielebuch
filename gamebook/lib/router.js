@@ -13,7 +13,7 @@ Router.route('/book', function () {
     this.render('topMenuBack', {to: 'topMenu'});
     this.render('book', {});
 });
-Router.route('/book', function () {
+Router.route('/impressum', function () {
     this.render('topMenuBack', {to: 'topMenu'});
     this.render('impressum', {});
 });
