@@ -1,5 +1,6 @@
 /**
- * seeding random-Generator chance for everyone
+ * seeding random-Generator chance for the server, client can simply use chance (e.g. chance.name())
  * @type {Chance}
  */
-chance = new Chance();
+if(Meteor.isServer)
+    chanceOnServer = new Chance();

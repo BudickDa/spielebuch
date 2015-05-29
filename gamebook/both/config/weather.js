@@ -1,17 +1,13 @@
 weatherTypes = {
     rainy: {
         text:{
-            de: {
-                text: 'Es regnet. '
-            },
-            effects: ['wet']
-        }
+            de: 'Es regnet.'
+        },
+        effects: ['wet']
     },
     sunny: {
         text:{
-            de: {
-                text: 'Es regnet. '
-            }
+            de:  'Es scheint die Sonne.'
         },
         effects: []
     }
