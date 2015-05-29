@@ -1,3 +1,7 @@
+/**
+ * Created by Daniel Budick on 29.05.2015.
+ * Copyright 2015, Daniel Budick, All rights reserved.
+ */
 Template.book.helpers({
     criticalTimingActive: function () {
         return Session.get('criticalTimingActive');
@@ -29,61 +33,25 @@ Template.book.helpers({
 });
 
 Template.book.events({
-    'click #keyword, mouseup #keyword': function (event) {
+    'click .keyword, mousedown .keyword': function (event) {
         var elem = $('#mousedown');
-        console.log('open ...-view');
+        console.log('open daVinci-view');
         elem.css({
             left: event.pageX-50,
             top: event.pageY-50
         }).show();
     },
-    'click .white-box': function(event){
+    'click .white-box, mouseup .white-box': function(event){
         var mousedown = $('#mousedown').hide();
         Session.set('actionText', ACTION.de[event.currentTarget.id]);
-        switch(event.currentTarget.id) {
-            case 'center':
-                break;
-            case 'bottomBox':
-                break;
-            case 'upBox':
-                break;
-            case 'leftBox':
-                break;
-            case 'leftUpBox':
-                break;
-            case 'leftBottomBox':
-                break;
-            case 'rightBox':
-                break;
-            case 'rightUpBox':
-                break;
-            case 'rightBottomBox':
-                break;
-            default:
-                /**
-                 * this should never happen, but closing anyways
-                 * */
-                mousedown.hide();
-        }
     },
 
     /**
-     * Hide ...-view on any click or keyup
+     * Hide .daVinci-view on any click or keyup
      */
     'click': function (event) {
         /**
-         * test if current target is keyword
-         * true => do nothing
-         */
-        if(event.currentTarget.id === 'keyword')
-            return;
-        /**
-         * test of curremt target is ...-view
-         */
-        if(event.currentTarget.id === 'mousedown')
-            return;
-        /**
-         * if click is on an element or if it is a keyup, hide ...-view
+         * if click is on an element or if it is a keyup, hide daVinci-view
          */
         console.log('close ...-view');
         $('#mousedown').hide();
