@@ -65,7 +65,7 @@ export class SceneObject extends AbstractSceneObject {
             default:
                 console.error('Unknown daVinciCode');
         }
-    }
+    };
 
 
 }
