@@ -11,5 +11,7 @@ export class Rule {
 
         }
 
+        Notifications.error('Not implemented', 'not implemented yet.');
+
     }
 }

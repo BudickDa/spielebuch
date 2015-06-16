@@ -9,6 +9,8 @@ underscore
 fastclick
 jquery
 
+gfk:notifications
+
 mquandalle:harmony
 
 iron:router

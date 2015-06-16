@@ -6,5 +6,7 @@
 export class Effect {
     constructor(name){
         this.name = name;
+
+        Notifications.error('Not implemented', 'not implemented yet.');
     }
 }
