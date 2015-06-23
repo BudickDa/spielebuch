@@ -4,10 +4,15 @@
  */
 
 /**
+ * Tutorial 1: How to create a scene and add it to a story.
+ */
+
+
+/**
  * Step 1: Create a Story object.
  * The Story should be global, so we do not use 'var'
  */
-story = new Story();
+storyOne = new Story();
 
 
 /**
@@ -27,7 +32,7 @@ var sceneOne = new Scene('rainy');
  * This means, that the order of calling 'addText' or
  * 'createKeyword' dictates the order of the text.
  */
-sceneOne.addText('Du wachst in einem dunklen Raum auf, was Wasser rieselt von der Decke.')
+sceneOne.addText('Du wachst in einem dunklen Raum auf, was Wasser rieselt von der Decke.');
 /**
  * Step 4: Adding a Keyword
  * We create GameObjects implicitly by writing text in the method 'createKeyword'.
@@ -47,11 +52,21 @@ var schwert = sceneOne.createKeyword('Auf diesem liegt ein silbrig glänzendes [
 /**
  * Step 5: Manipulate a GameObject
  * Via the returned GameObject wie can manipulate an Object behind a Keyword.
+ * We add the effects 'verrottet' and 'alt'.
+ *
+ * You can find more info to effects in the effect and rules tutorial (tutorialTwo.js)
  */
-holztisch.hasEffect('rotten');
-holztisch.hasEffect('old');
+holztisch.hasEffect('verrottet');
+holztisch.hasEffect('alt');
+
+storyOne.addScene(sceneOne);
 
 
+/**
+ * Step 6: Start story
+ * Just call start. If you want to use another tutorial, you should comment storyOne.start() out.
+ */
+storyOne.start();
 
 
 

@@ -3,15 +3,9 @@
  * Copyright 2015, Daniel Budick, All rights reserved.
  */
 
-export class Rule {
-    constructor(name, object, scene){
-        this.name = name;
-
-        if(scene){
-
-        }
-
-        Notifications.error('Not implemented', 'not implemented yet.');
-
+export class Rule extends BaseStorageObject {
+    constructor(key, value){
+        this.key = key;
+        this.value = value;
     }
 }

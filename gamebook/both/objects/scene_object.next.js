@@ -1,21 +1,14 @@
 /**
- * Private
- * Created by Daniel Budick on 29.05.2015.
+ * Created by Daniel Budick on 23.06.2015.
  * Copyright 2015, Daniel Budick, All rights reserved.
  */
-class AbstractSceneObject {
-
-}
 
 /**
  * Public
- * Created by Daniel Budick on 29.05.2015.
- * Copyright 2015, Daniel Budick, All rights reserved.
+ * An Object the player can interact with
  */
-
-export class SceneObject extends AbstractSceneObject {
+export class SceneObject extends BaseObject {
     constructor(name) {
-        this._id = chance.guid();
         this.name = name;
         this.effects = [];
         this.properties = [];

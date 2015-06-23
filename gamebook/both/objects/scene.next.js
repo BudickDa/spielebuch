@@ -5,7 +5,7 @@
 
 /**
  * Private
- * Cretates anker-tag for sceneObject
+ * Creates anker-tag for sceneObject
  * @param sceneObject
  */
 function createKeywordAnker(sceneObject) {
@@ -13,20 +13,16 @@ function createKeywordAnker(sceneObject) {
 }
 
 
-export class Scene {
+export class Scene extends BaseObject {
     constructor(weather) {
         this.environment = new Environment(weather);
         this.sceneObjects = [];
         this.sceneObjecttexts = [];
-        this.sceneRules = [];
-        this.sceneEffects = [];
+        this.text = '';
     }
 
     addSceneObject(objectname) {
-        var sceneObject = new SceneObject(objectname), effects = this.getWeatherEffects();
-        _.each(effects, function (effect) {
-            sceneObject.hasEffect(effect)
-        });
+        var sceneObject = new SceneObject(objectname);
         this.sceneObjects.push(sceneObject);
         return sceneObject;
     }
@@ -35,27 +31,25 @@ export class Scene {
         this.environment.setWeather(weather);
     }
 
-    getWeatherEffects() {
+    /**
+     * add description of the weather to the scene text
+     * @param language (optional) language of the string. If not set, we take the default language.
+     */
+    howIsTheWeather(language) {
+        if(!language)
+            language = defaultLanguage; //no language param, take default language
         var weather = this.environment.getWeather();
-        if (weather)
-            return weather.effects;
-        return [];
-    }
-
-    getWeatherText(language) {
-        var weather = this.environment.getWeather();
-        console.log(weather);
         if (weather.text) {
             if (weather.text[language]) {
-                return weather.text[language];
+                this.text += weather.text[language];
             }
         }
-        return '';
+        return;
     }
 
 
     addText(text) {
-        this.text = text;
+        this.text += text;
     }
 
     /**
@@ -80,7 +74,8 @@ export class Scene {
         _.forEach(this.sceneObjecttexts, function (objecttext) {
             text += objecttext;
         });
-        Session.set('mainText', text);
+        if(Meteor.isClient)
+            Session.set('mainText', text);
     }
 
 }

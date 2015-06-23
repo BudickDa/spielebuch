@@ -3,7 +3,7 @@
  * Copyright 2015, Daniel Budick, All rights reserved.
  */
 
-export class Effect {
+export class Effect extends BaseStorageObject {
     constructor(name, rules){
         this.name = name;
         this.rules = rules;
