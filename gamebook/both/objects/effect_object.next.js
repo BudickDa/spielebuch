@@ -4,9 +4,11 @@
  */
 
 export class Effect {
-    constructor(name){
+    constructor(name, rules){
         this.name = name;
-
-        Notifications.error('Not implemented', 'not implemented yet.');
+        this.rules = rules;
+    }
+    addRule(rule){
+        this.rules.push(rule);
     }
 }

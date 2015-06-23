@@ -38,6 +38,11 @@ export class SceneObject extends AbstractSceneObject {
         return text;
     }
 
+    drop(){
+        "use strict";
+
+    }
+
     /**
      * Reacts to controlling in UI.
      * @param daVinciCode the clicked box's direction

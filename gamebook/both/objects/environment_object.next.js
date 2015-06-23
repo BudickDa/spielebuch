@@ -24,7 +24,7 @@ var getWeatherFromConfig = function(chosenWeather){
     }
 
         /**
-         * Get Weather from weather.js in config
+         * Get Weather from weather.js in book
          */
         chosenWeather = weatherTypes[chosenWeather];
 
@@ -46,9 +46,9 @@ var validateWeather = function (tmpWeather) {
         if (tmpWeather === undefined || tmpWeather.text === undefined || tmpWeather.effects === undefined) {
             console.log('The chosen weather: ');
             console.log(tmpWeather);
-            console.log('is invalid. Take a look into gamebook/both/config/weather.js if it is defined corectly.');
+            console.log('is invalid. Take a look into gamebook/both/book/weather.js if it is defined corectly.');
             console.log('It should have a text and effects as attribute.');
-            console.error('Your weather config is messed up. This application will not work, please fix it! Take a look into the documentation.');
+            console.error('Your weather book is messed up. This application will not work, please fix it! Take a look into the documentation.');
             return false;
         }
     } catch (e) {
