@@ -10,15 +10,42 @@ Router.configure({
 });
 
 Router.route('/', function () {
-    this.render('topMenu', {to: 'topMenu'});
-    this.render('mainMenu', {});
+    var self = this;
+    self.render('topMenu', {to: 'topMenu'});
+    self.render('mainMenu', {});
 });
 
-Router.route('/book', function () {
-    this.render('topMenuBack', {to: 'topMenu'});
-    this.render('book', {});
+Router.route('/book/:story', function () {
+    var self = this;
+
+    /**
+     * Displayed Story is chosen by the url.
+     * The story saved in story will be displayed in the view.
+     */
+    switch (self.params.story) {
+        case 'storyOne':
+            story = storyOne;
+            break;
+        case 'storyTwo':
+            story = storyTwo;
+            break;
+        default:
+            story = storyOne;
+            break;
+    }
+
+    console.log(story);
+    /**
+     * The story is started.
+     */
+    story.start();
+
+
+    self.render('topMenuBack', {to: 'topMenu'});
+    self.render('book', {});
 });
 Router.route('/impressum', function () {
-    this.render('topMenuBack', {to: 'topMenu'});
-    this.render('impressum', {});
+    var self = this;
+    self.render('topMenuBack', {to: 'topMenu'});
+    self.render('impressum', {});
 });

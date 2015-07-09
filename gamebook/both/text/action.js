@@ -11,7 +11,8 @@ ACTION = {
         bottom: 'Gehen',
         leftBottom: 'Fallen lassen',
         rightBottom: 'Fallen lassen',
-        leftUp: 'Aufnehmen',
-        rightUp: 'Aufnehmen'
+        leftTop: 'Aufnehmen',
+        rightTop: 'Aufnehmen',
+        top: 'Sprechen'
     }
 }

@@ -2,6 +2,7 @@
  * Created by Daniel Budick on 29.05.2015.
  * Copyright 2015, Daniel Budick, All rights reserved.
  */
+
 Template.book.helpers({
     criticalTimingActive: function () {
         return Session.get('criticalTimingActive');
@@ -35,15 +36,22 @@ Template.book.helpers({
 Template.book.events({
     'click .keyword, mousedown .keyword': function (event) {
         var elem = $('#mousedown');
-        console.log('open daVinci-view');
+        Session.set('activatedObjectId', event.currentTarget.dataset.objectid);
         elem.css({
-            left: event.pageX-50,
-            top: event.pageY-50
+            left: event.pageX - 50,
+            top: event.pageY - 50
         }).show();
     },
-    'click .white-box, mouseup .white-box': function(event){
+    'click .white-box, mouseup .white-box': function (event) {
         var mousedown = $('#mousedown').hide();
-        Session.set('actionText', ACTION.de[event.currentTarget.id]);
+        var currentObject = story.getSceneObject(Session.get('activatedObjectId'));
+        console.log(Session.get('activatedObjectId'));
+        var override = currentObject.overrrides[event.currentTarget.id]
+        if (override)
+            Session.set('actionText', override);
+        else
+            Session.set('actionText', ACTION.de[event.currentTarget.id]);
+        currentObject.fireEvent(event.currentTarget.id);
     },
 
     /**

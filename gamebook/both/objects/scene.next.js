@@ -17,7 +17,7 @@ export class Scene extends BaseObject {
     constructor(weather) {
         this.environment = new Environment(weather);
         this.sceneObjects = [];
-        this.sceneObjecttexts = [];
+        this.sceneObjectTexts = [];
         this.text = '';
     }
 
@@ -65,17 +65,31 @@ export class Scene extends BaseObject {
         sceneObject = this.addSceneObject(keyword);
         keywordText = keywordText.replace(needle, createKeywordAnker(sceneObject));
 
-        this.sceneObjecttexts.push(keywordText);
+        this.sceneObjectTexts.push(keywordText);
         return sceneObject;
     }
 
     updateText() {
         var text = this.text;
-        _.forEach(this.sceneObjecttexts, function (objecttext) {
+        _.forEach(this.sceneObjectTexts, function (objecttext) {
             text += objecttext;
         });
         if(Meteor.isClient)
             Session.set('mainText', text);
     }
 
+
+    /**
+     * find object in scene by id
+     * @param _id
+     * @returns {number} returns -1 when nothing is found
+     */
+    findSceneObject(_id){
+        var result = -1;
+        _.each(this.sceneObjects, function(object){
+            if(object._id===_id)
+                result = object;
+        });
+        return result;
+    }
 }

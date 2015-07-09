@@ -11,6 +11,7 @@
 /**
  * Step 1: Create a Story object.
  * The Story should be global, so we do not use 'var'
+ * IMPORTANT: Never call a varibale 'story'. 'story' is reserved for the framework.
  */
 storyOne = new Story();
 
@@ -59,14 +60,38 @@ var schwert = sceneOne.createKeyword('Auf diesem liegt ein silbrig glänzendes [
 holztisch.hasEffect('verrottet');
 holztisch.hasEffect('alt');
 
+/**
+ * Step 6: Add an event handler
+ * In the da-vinci System there is an action for every direction.
+ * We chose the direction top, if top is called in the ui, we go to the next scene.
+ * The Name of the action will be: 'Den Tisch betrachten.'
+ */
+holztisch.addEvent('center', function(){
+    storyOne.nextScene();
+}, 'Den Tisch betrachten.')
+
 storyOne.addScene(sceneOne);
 
 
 /**
- * Step 6: Start story
+ * Step 6: Let's add another scene where we change to
+ */
+var sceneTwo = new Scene('rainy');
+sceneTwo.addText('Du betrachtest den Tisch und denkst über die Möglichkeiten nach, die dieses Spiel bietet. ');
+sceneTwo.createKeyword('Dein Blick fällt auf das [Schwert] das vollkommen nutzlos erscheint. ');
+sceneTwo.addText('Was Du mit dem Schwert machen kannst findest Du im zweiten Tutorial (tutorialTwo.js)');
+storyOne.addScene(sceneTwo);
+
+
+/**
+ * Step 7: Start story
  * Just call start. If you want to use another tutorial, you should comment storyOne.start() out.
  */
-storyOne.start();
+//storyOne.start();
+
+/**
+ * this application contains multible stories. These stories are choosen by the URL in the router (/gamebook/lib/router.js)
+ */
 
 
 
