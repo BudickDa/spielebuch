@@ -1,9 +1,10 @@
 /**
- * Created by Daniel Budick on 16.06.2015.
+ * Created by Daniel Budick on 10.07.2015.
  * Copyright 2015, Daniel Budick, All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
  */
-export class Story {
 
+export class Story extends BaseObject {
     /**
      * this.scenes holds all the scenes of the story in the order of their creation
      * this.rules holds all the rules oft the story

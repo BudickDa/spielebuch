@@ -1,6 +1,7 @@
 /**
- * Created by Daniel Budick on 29.05.2015.
+ * Created by Daniel Budick on 10.07.2015.
  * Copyright 2015, Daniel Budick, All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
  */
 
 /**
@@ -13,7 +14,7 @@ function createKeywordAnker(sceneObject) {
 }
 
 
-export class Scene extends BaseObject {
+export class Scene extends BaseObject{
     constructor(weather) {
         this.environment = new Environment(weather);
         this.sceneObjects = [];

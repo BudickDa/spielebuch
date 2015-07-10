@@ -28,7 +28,7 @@
  * If a rule/effect was added to a scene or a story it affects all the objects in the scene or story.
  * If it was added to a player or object it affects only this player/object
  */
-fireDamageReduces = new Rule('fireDamage', '-5');
+fireDamageReduces = new Gamebook.Rule('fireDamage', '-5');
 
 
 

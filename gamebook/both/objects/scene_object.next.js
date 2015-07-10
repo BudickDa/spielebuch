@@ -1,6 +1,7 @@
 /**
- * Created by Daniel Budick on 23.06.2015.
+ * Created by Daniel Budick on 10.07.2015.
  * Copyright 2015, Daniel Budick, All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
  */
 
 /**

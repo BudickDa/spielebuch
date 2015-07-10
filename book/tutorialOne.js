@@ -10,10 +10,8 @@
 
 /**
  * Step 1: Create a Story object.
- * The Story should be global, so we do not use 'var'
- * IMPORTANT: Never call a varibale 'story'. 'story' is reserved for the framework.
  */
-storyOne = new Story();
+var storyOne = new Gamebook.Story();
 
 
 /**
@@ -85,9 +83,9 @@ storyOne.addScene(sceneTwo);
 
 /**
  * Step 7: Start story
- * Just call start. If you want to use another tutorial, you should comment storyOne.start() out.
+ * Add story to Gamebook.stories, that makes it globally available.
  */
-//storyOne.start();
+Gamebook.stories.storyOne = storyOne;
 
 /**
  * this application contains multible stories. These stories are choosen by the URL in the router (/gamebook/lib/router.js)

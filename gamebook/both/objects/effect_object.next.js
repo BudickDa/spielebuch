@@ -1,9 +1,9 @@
 /**
- * Created by Daniel Budick on 04.06.2015.
+ * Created by Daniel Budick on 10.07.2015.
  * Copyright 2015, Daniel Budick, All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
  */
-
-export class Effect extends BaseStorageObject {
+export class Effect {
     constructor(name, rules){
         this.name = name;
         this.rules = rules;
