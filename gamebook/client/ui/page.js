@@ -3,7 +3,7 @@
  * Copyright 2015, Daniel Budick, All rights reserved.
  */
 
-Template.book.helpers({
+Template.page.helpers({
     criticalTimingActive: function () {
         return Session.get('criticalTimingActive');
     },
@@ -30,10 +30,13 @@ Template.book.helpers({
     },
     statusText: function () {
         return Session.get('statusText');
+    },
+    backback: function(){
+        return story.player.backback.print();
     }
 });
 
-Template.book.events({
+Template.page.events({
     'click .keyword, mousedown .keyword': function (event) {
         var elem = $('#mousedown');
         Session.set('activatedObjectId', event.currentTarget.dataset.objectid);
@@ -45,7 +48,6 @@ Template.book.events({
     'click .white-box, mouseup .white-box': function (event) {
         var mousedown = $('#mousedown').hide();
         var currentObject = story.getSceneObject(Session.get('activatedObjectId'));
-        console.log(Session.get('activatedObjectId'));
         var override = currentObject.overrrides[event.currentTarget.id]
         if (override)
             Session.set('actionText', override);

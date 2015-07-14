@@ -4,16 +4,6 @@
  * Contact: daniel@budick.eu / http://budick.eu
  */
 
-/**
- * Private
- * Creates anker-tag for sceneObject
- * @param sceneObject
- */
-function createKeywordAnker(sceneObject) {
-    return '<a href=\"#\" class=\"keyword\" data-objectid=\"' + sceneObject._id + '\">' + sceneObject.name + '</a>';
-}
-
-
 export class Scene extends BaseObject{
     constructor(weather) {
         this.environment = new Environment(weather);
@@ -22,11 +12,7 @@ export class Scene extends BaseObject{
         this.text = '';
     }
 
-    addSceneObject(objectname) {
-        var sceneObject = new SceneObject(objectname);
-        this.sceneObjects.push(sceneObject);
-        return sceneObject;
-    }
+
 
     updateWeather(weather) {
         this.environment.setWeather(weather);
@@ -90,6 +76,27 @@ export class Scene extends BaseObject{
         _.each(this.sceneObjects, function(object){
             if(object._id===_id)
                 result = object;
+        });
+        return result;
+    }
+
+    addSceneObject(objectname) {
+        var sceneObject = new SceneObject(objectname);
+        this.sceneObjects.push(sceneObject);
+    }
+
+    /**
+     * find and remove object in scene by id
+     * @param _id
+     * @returns {boolean} returns -1 when nothing is found
+     */
+    removeSceneObject(_id){
+        var result = false;
+        _.each(this.sceneObjects, function(object, index){
+            if(object._id===_id) {
+                this.sceneObjects.splice(index, 1);
+                result = true;
+            }
         });
         return result;
     }

@@ -41,14 +41,16 @@ export class SceneObject extends BaseObject {
      * take object into inventory
      */
     take(){
-        debugMsg('Error', 'Not implemented yet.');
+        Gamebook.player.addToBackback(this);
+        Gamebook.story.currentScene().removeSceneObject(this._id);
     }
 
     /**
      * drop object into scene
      */
     drop(){
-        debugMsg('Error', 'Not implemented yet.');
+        Gamebook.player.removeFromBackback(this._id);
+        Gamebook.story.currentScene().addSceneObject(this);
     }
 
     /**

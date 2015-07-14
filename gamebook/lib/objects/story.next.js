@@ -14,6 +14,7 @@ export class Story extends BaseObject {
         this.scenes = [];
         this.rules = [];
         this.sceneHistory = [];
+        this.player = new Player();
     }
 
     addScene(scene) {

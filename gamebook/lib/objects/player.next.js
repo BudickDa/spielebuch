@@ -4,6 +4,26 @@
  * Contact: daniel@budick.eu / http://budick.eu
  */
 
-export class Player extends BaseObject{
+export class Player {
+    constructor(){
+        this.backback = [];
+
+    }
+
+    addToBackback(object){
+        this.backback.push(object);
+    }
+
+    removeFromBackback(_id){
+
+    }
+
+    print(){
+        var html = '';
+        _.forEach(this.backback, function(object){
+            html += createKeywordAnker(object);
+        });
+        return html;
+    }
 
 }
