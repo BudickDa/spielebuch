@@ -7,18 +7,35 @@
 export class Player {
     constructor(){
         this.backback = [];
+        this.leftHand = -1;
+        this.rightHand = -1;
 
     }
 
-    addToBackback(object){
-        this.backback.push(object);
+    /**
+     * takes object from the right hand and puts it into the backback.
+     * It takes object from the right hand, when second paramter is set true
+     * @param fromLeftHand optional: set this paramter to take object from the left hand
+     */
+    addToBackback(fromLeftHand){
+        if(fromLeftHand){
+            if(this.leftHand!==-1) {
+                this.backback.push(this.leftHand);
+                this.leftHand = -1;
+            }
+        }else {
+            if(this.rightHand!==-1) {
+                this.backback.push(this.rightHand);
+                this.rightHand = -1;
+            }
+        }
     }
 
     removeFromBackback(_id){
 
     }
 
-    print(){
+    printBackback(){
         var html = '';
         _.forEach(this.backback, function(object){
             html += createKeywordAnker(object);

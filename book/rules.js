@@ -28,10 +28,10 @@
  * If a rule/effect was added to a scene or a story it affects all the objects in the scene or story.
  * If it was added to a player or object it affects only this player/object
  */
-fireDamageReduced = new Gamebook.Rule('fireDamage', '-5');
+fireDamageReduced = new Gamebook.Rule('Feuerschaden', '-5');
 
-iron = new Gamebook.Rule('hitpoints', 260);
-fragile = new Gamebook.Rule('hitpoints', 30);
+iron = new Gamebook.Rule('Stabilität', 260);
+fragile = new Gamebook.Rule('Stabilität', 30);
 
 
 

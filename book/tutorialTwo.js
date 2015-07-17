@@ -15,7 +15,7 @@ storyTwo.addScene(sceneOne);
 /**
  * We share the waether with reader
  */
-storyTwo.howIsTheWeather();
+sceneOne.howIsTheWeather();
 
 /*
  * Then we create some rules and put them together into an effect.
@@ -28,13 +28,13 @@ storyTwo.howIsTheWeather();
 /**
  * these rules are manipulators, they change the values.
  */
-var lowerHP = new Gamebook.Rule('hitpoints', '-15');
-var lowerDamage = new Gamebook.Rule('meleeDamage', '-20');
+var lowerHP = new Gamebook.Rule('Stabilität', '-15');
+var lowerDamage = new Gamebook.Rule('Nahkampfschaden', '-20');
 
 /**
  * these rules have absolute values, they set these values.
  */
-var swordDamage = new Gamebook.Rule('meleeDamage', 60);
+var swordDamage = new Gamebook.Rule('Nahkampfschaden', 60);
 
 /**
  * we create the effects and add the rules
@@ -77,7 +77,8 @@ var rainy = new Gamebook.Effect('rainy', [fireDamageReduced]);
 sceneOne.addEffect(rainy);
 
 /**
- * in the next step we have to add
+ * in the next step we have to add an event.
+ * This event is triggered whenever something is hit
  */
 
 

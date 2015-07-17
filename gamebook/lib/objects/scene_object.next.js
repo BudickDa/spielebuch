@@ -25,6 +25,7 @@ export class SceneObject extends BaseObject {
         this._id = chance.guid();
         this.name = name;
         this.effects = [];
+
         this.events = {};
 
         /**

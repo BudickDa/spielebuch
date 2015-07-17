@@ -20,7 +20,7 @@ var storyOne = new Gamebook.Story();
  * Scenes should not be global because they will be added to the story,
  * thus 'sceneOne' is only temporally used
  */
-var sceneOne = new Gamebook.Scene('rainy');
+var sceneOne = new Gamebook.Scene();
 
 /**
  * Step 3: Adding some content
@@ -45,8 +45,9 @@ sceneOne.addText('Du wachst in einem dunklen Raum auf, was Wasser rieselt von de
  * Wrong -> Die Macht des [Schwertes] => in backback: Schwertes
  * Right -> Die Macht des [Schwert]es => in backback: Schwert
  */
+
 var holztisch = sceneOne.createKeyword('Der Raum ist dunkel, in der Mitte steht ein alter, nasser und halbverotteter [Holztisch]. ');
-var schwert = sceneOne.createKeyword('Auf diesem liegt ein silbrig glänzendes [Schwert].');
+var schwert01 = sceneOne.createKeyword('Auf diesem liegt ein silbrig glänzendes [Schwert].');
 
 /**
  * Step 5: Manipulate a GameObject
@@ -70,7 +71,7 @@ holztisch.addEffect(old);
  */
 holztisch.addEvent('center', function(){
     storyOne.nextScene();
-}, 'Den Tisch betrachten.')
+}, 'Den Tisch betrachten.');
 
 storyOne.addScene(sceneOne);
 
@@ -80,8 +81,12 @@ storyOne.addScene(sceneOne);
  */
 var sceneTwo = new Gamebook.Scene('rainy');
 sceneTwo.addText('Du betrachtest den Tisch und denkst über die Möglichkeiten nach, die dieses Spiel bietet. ');
-sceneTwo.createKeyword('Dein Blick fällt auf das [Schwert] das vollkommen nutzlos erscheint. ');
-sceneTwo.addText('Was Du mit dem Schwert machen kannst findest Du im zweiten Tutorial (tutorialTwo.js)');
+var schwert02  = sceneTwo.createKeyword('Dein Blick fällt auf das [Schwert] das vollkommen nutzlos erscheint. ');
+schwert02.addEvent('left', function(){
+    sceneTwo.addText('Was Du mit dem Schwert machen kannst findest Du im zweiten Tutorial (tutorialTwo.js)');
+    sceneTwo.updateText();
+}, 'Das Schwert nehmen.');
+
 storyOne.addScene(sceneTwo);
 
 
@@ -94,9 +99,3 @@ Gamebook.stories.storyOne = storyOne;
 /**
  * this application contains multiple stories. These stories are chosen by the URL in the router (/gamebook/lib/router.js)
  */
-
-
-
-
-
-

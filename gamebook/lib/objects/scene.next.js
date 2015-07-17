@@ -97,6 +97,7 @@ export class Scene extends BaseObject{
     addSceneObject(objectname) {
         var sceneObject = new SceneObject(objectname);
         this.sceneObjects.push(sceneObject);
+        return sceneObject;
     }
 
     /**

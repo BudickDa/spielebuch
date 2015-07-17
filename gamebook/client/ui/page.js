@@ -32,7 +32,9 @@ Template.page.helpers({
         return Session.get('statusText');
     },
     backback: function(){
-        return story.player.backback.print();
+        //return Gamebook.story.player.printBackback();
+        return '<li>Schriftrolle</li><li>Karte</li>';
+
     }
 });
 
@@ -47,7 +49,7 @@ Template.page.events({
     },
     'click .white-box, mouseup .white-box': function (event) {
         var mousedown = $('#mousedown').hide();
-        var currentObject = story.getSceneObject(Session.get('activatedObjectId'));
+        var currentObject = Gamebook.story.getSceneObject(Session.get('activatedObjectId'));
         var override = currentObject.overrrides[event.currentTarget.id]
         if (override)
             Session.set('actionText', override);
@@ -57,13 +59,30 @@ Template.page.events({
     },
 
     /**
+     * Show content of backback
+     */
+   /* 'click .dropdown-button': function(event){
+
+    },
+*/
+    /**
+     * Show left and right hand on backback
+     */
+    'click .backback-left, mouseup .white-box.backback-left': function(){
+
+    },
+    'click .backback-right, mouseup .white-box.backback-right': function(){
+
+    },
+
+    /**
      * Hide .daVinci-view on any click or keyup
      */
     'click': function (event) {
         /**
          * if click is on an element or if it is a keyup, hide daVinci-view
          */
-        console.log('close ...-view');
         $('#mousedown').hide();
-    }
+    },
+
 });

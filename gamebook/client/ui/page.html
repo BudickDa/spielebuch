@@ -1,6 +1,7 @@
 <template name="page">
     <main>
         <div class="container">
+
             {{#if criticalTimingActive}}
                 <div class="progress">
                     <div class="determinate  red darken-4" style="width: {{criticalTiming}}%"></div>
@@ -25,8 +26,21 @@
             <div class="container">
                 <div class="row">
                     <div class="col m6 s12">
-                        <a href="#" class="keyword">Rucksack</a>
-                        {{backback}}
+                        <a class='dropdown-button btn red darken-3' href='#' data-activates='dropdown1'>Rucksack</a>
+                        <ul id='dropdown1' class='dropdown-content backback-list'>
+                            {{{backback}}}
+                        </ul>
+                        <script>
+                            $('.dropdown-button').dropdown({
+                                        inDuration: 300,
+                                        outDuration: 225,
+                                        constrain_width: false,
+                                        hover: true,
+                                        gutter: 0,
+                                        belowOrigin: false
+                                    }
+                            );
+                        </script>
                     </div>
                     <div class="col m6 s12">
                         {{statusText}}

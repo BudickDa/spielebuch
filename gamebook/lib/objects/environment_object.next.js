@@ -44,17 +44,16 @@ var getWeatherFromConfig = function(chosenWeather){
  */
 var validateWeather = function (tmpWeather) {
     try {
-        if (tmpWeather === undefined || tmpWeather.text === undefined || tmpWeather.effects === undefined) {
-            console.log('The chosen weather: ');
-            console.log(tmpWeather);
-            console.log('is invalid. Take a look into gamebook/both/book/weather.js if it is defined corectly.');
-            console.log('It should have a text and effects as attribute.');
-            console.error('Your weather book is messed up. This application will not work, please fix it! Take a look into the documentation.');
+        if (tmpWeather === undefined || tmpWeather.text === undefined) {
+            debugMsg('Error validating weather', 'The chosen weather: ' +
+                tmpWeather +
+            'is invalid. Take a look into gamebook/both/book/weather.js if it is defined corectly.'+
+            'It should have a text and effects as attribute.'+
+            'Your weather book is messed up. This application will not work, please fix it! Take a look into the documentation.');
             return false;
         }
     } catch (e) {
-        console.log('An exception occured. It is possibly caused by an invalide weatherType. Details:');
-        console.log(e);
+        debugMsg('An exception in validateWeather is occured','It is possibly caused by an invalid weatherType. Details:' + e);
         return false;
     }
     return true;
