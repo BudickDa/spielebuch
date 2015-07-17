@@ -33,7 +33,7 @@ export class SceneObject extends BaseObject {
         this.overrrides = {};
     }
 
-    hasEffect(effect) {
+    addEffect(effect) {
         this.effects.push(effect);
     }
 
@@ -71,6 +71,20 @@ export class SceneObject extends BaseObject {
         if(!validateEvent(event))
             return;
         this.events[event]();
+    }
+
+
+    getEffects(){
+
+    }
+
+
+    /**
+     *
+     * @param name string with the name of the key of the property (e.g. meleeDamage, hitpoints)
+     */
+    getPropertyValueByName(name){
+
     }
 
 }

@@ -12,7 +12,7 @@ export class Story extends BaseObject {
      */
     constructor(story) {
         this.scenes = [];
-        this.rules = [];
+        this.effects = [];
         this.sceneHistory = [];
         this.player = new Player();
     }
@@ -33,6 +33,14 @@ export class Story extends BaseObject {
             return debugMsg('The index is invalid', 'The index must be greater or equal 0');
         this.sceneHistory.push(index);
         return this.scenes[index].updateText();
+    }
+
+    /**
+     * Adds an effect to the whole story.
+     * @param effect
+     */
+    addEffect(effect) {
+        this.effects.push(effect);
     }
 
     /**

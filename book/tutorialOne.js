@@ -54,9 +54,13 @@ var schwert = sceneOne.createKeyword('Auf diesem liegt ein silbrig glänzendes [
  * We add the effects 'verrottet' and 'alt'.
  *
  * You can find more info to effects in the effect and rules tutorial (tutorialTwo.js)
+ *
+ * for now we only add empty effects instead of real effects with rules. An effect without a rule does nothing
  */
-holztisch.hasEffect('verrottet');
-holztisch.hasEffect('alt');
+var rotten = new Gamebook.Effect('verrottet', []);
+var old = new Gamebook.Effect('alt', []);
+holztisch.addEffect(rotten);
+holztisch.addEffect(old);
 
 /**
  * Step 6: Add an event handler

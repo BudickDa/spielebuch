@@ -10,6 +10,7 @@ export class Scene extends BaseObject{
         this.sceneObjects = [];
         this.sceneObjectTexts = [];
         this.text = '';
+        this.effects = [];
     }
 
 
@@ -17,6 +18,7 @@ export class Scene extends BaseObject{
     updateWeather(weather) {
         this.environment.setWeather(weather);
     }
+
 
     /**
      * add description of the weather to the scene text
@@ -35,6 +37,18 @@ export class Scene extends BaseObject{
     }
 
 
+    /**
+     * Adds an effect to the whole scene.
+     * @param effect
+     */
+    addEffect(effect) {
+        this.effects.push(effect);
+    }
+
+    /**
+     * adds some text to the scene. This text is not dynamic and not interactive
+     * @param text
+     */
     addText(text) {
         this.text += text;
     }
