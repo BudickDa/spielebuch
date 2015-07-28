@@ -66,7 +66,7 @@ holztisch.addEffect(old);
 schwert.addEffect(new Gamebook.Effect('default', [swordDamage,iron]));
 
 /**
- * oh no... it is rainy... that means fire does less damage.
+ * oh no... the weather is rainy... that means fire does less damage.
  * instead of adding an effect to every object, we add an effect to the scene.
  * For this we use the global rules from /book/rules.js with the name 'fireDamageReduced'.
  * We pack it all into the effect 'rainy' and apply it to the scene. We could of course apply it to the story.

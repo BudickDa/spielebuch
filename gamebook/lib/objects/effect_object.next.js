@@ -11,4 +11,12 @@ export class Effect {
     addRule(rule){
         this.rules.push(rule);
     }
+
+    /**
+     * get effective statistics of this effec as array  by computing all the rules
+     * @returns {{}}
+     */
+    getStats(){
+        return createStats(this.rules);
+    }
 }

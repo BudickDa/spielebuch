@@ -85,3 +85,24 @@
     top:-200px;
     left: 20px;
 }
+
+
+.effects {
+    top:-10px;
+    background-color:black;
+    color:white;
+    border-radius:5px;
+    opacity:0;
+    position:absolute;
+    z-index: 99;
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    display: none;
+}
+.hover:hover .effects {
+    opacity:1;
+    display: block;
+}

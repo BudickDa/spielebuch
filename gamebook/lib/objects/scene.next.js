@@ -4,15 +4,13 @@
  * Contact: daniel@budick.eu / http://budick.eu
  */
 
-export class Scene extends BaseObject{
+export class Scene extends BaseObject {
     constructor(weather) {
         this.environment = new Environment(weather);
         this.sceneObjects = [];
-        this.sceneObjectTexts = [];
         this.text = '';
         this.effects = [];
     }
-
 
 
     updateWeather(weather) {
@@ -25,7 +23,7 @@ export class Scene extends BaseObject{
      * @param language (optional) language of the string. If not set, we take the default language.
      */
     howIsTheWeather(language) {
-        if(!language)
+        if (!language)
             language = defaultLanguage; //no language param, take default language
         var weather = this.environment.getWeather();
         if (weather.text) {
@@ -59,24 +57,28 @@ export class Scene extends BaseObject{
      * @returns sceneObject
      */
     createKeyword(sceneObjectText) {
-        var keywordText = sceneObjectText, re = /[^[\]]+(?=])/, keyword, sceneObject, needle;
-
-        keyword = re.exec(sceneObjectText)[0];
-        needle = new RegExp('\\[' + keyword + '\\]', 'g');
-        sceneObject = this.addSceneObject(keyword);
-        keywordText = keywordText.replace(needle, createKeywordAnker(sceneObject));
-
-        this.sceneObjectTexts.push(keywordText);
+        var keywordText = sceneObjectText, re = /[^[\]]+(?=])/, keyword, sceneObject;
+        keyword = re.exec(keywordText)[0];
+        sceneObject = new SceneObject(keyword);
+        this.sceneObjects.push(
+            {
+                sceneObject:sceneObject,
+                text:keywordText
+            }
+        );
         return sceneObject;
     }
 
+
+
     updateText() {
         var text = this.text;
-        _.forEach(this.sceneObjectTexts, function (objecttext) {
-            text += objecttext;
+        _.forEach(this.sceneObjects, function (sceneObject) {
+            text += createKeywordText(sceneObject);
         });
-        if(Meteor.isClient)
+        if (Meteor.isClient) {
             Session.set('mainText', text);
+        }
     }
 
 
@@ -85,30 +87,29 @@ export class Scene extends BaseObject{
      * @param _id
      * @returns {number} returns -1 when nothing is found
      */
-    findSceneObject(_id){
-        var result = -1;
-        _.each(this.sceneObjects, function(object){
-            if(object._id===_id)
-                result = object;
+    findSceneObject(_id) {
+        var result = -1, sceneObject;
+        _.each(this.sceneObjects, function (object) {
+            sceneObject = object.sceneObject;
+            if (sceneObject._id === _id)
+                result = sceneObject;
         });
+        if(result===-1)
+            debugMsg('Sceneobject not found', 'The object with the id: '+_id+' is not in this scene.');
         return result;
     }
 
-    addSceneObject(objectname) {
-        var sceneObject = new SceneObject(objectname);
-        this.sceneObjects.push(sceneObject);
-        return sceneObject;
-    }
 
     /**
      * find and remove object in scene by id
      * @param _id
      * @returns {boolean} returns -1 when nothing is found
      */
-    removeSceneObject(_id){
-        var result = false;
-        _.each(this.sceneObjects, function(object, index){
-            if(object._id===_id) {
+    removeSceneObject(_id) {
+        var result = false, sceneObject;
+        _.each(this.sceneObjects, function (object, index) {
+            sceneObject = object.sceneObject;
+            if (sceneObject._id === _id) {
                 this.sceneObjects.splice(index, 1);
                 result = true;
             }
