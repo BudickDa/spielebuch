@@ -50,7 +50,7 @@ export class SceneObject extends BaseObject {
      * take object into inventory
      */
     take() {
-        Gamebook.player.addToBackpack(this);
+        Gamebook.story.player.addToBackpack(this);
         Gamebook.story.currentScene().removeSceneObject(this._id);
     }
 

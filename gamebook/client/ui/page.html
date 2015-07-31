@@ -26,26 +26,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col m6 s12">
-                        <a id="backpack" class='dropdown-button btn red darken-3' href='#' data-activates='dropdown1'>Rucksack</a>
-                        <ul id='dropdown1' class='dropdown-content backback-list'>
-                            {{#each backpack}}
-                                {{>backpackItem}}
-                            {{/each}}
-                        </ul>
-                        <script>
-                            $('.dropdown-button').dropdown({
-                                        inDuration: 300,
-                                        outDuration: 225,
-                                        constrain_width: false,
-                                        hover: true,
-                                        gutter: 0,
-                                        belowOrigin: false
-                                    }
-                            );
-                        </script>
+                        <a id="backpack" class='btn red darken-3' href='#'>Rucksack</a>
+
+                        <a id="openBackpack" class='btn red darken-3' href='#'><i class="pageview"></i></a>
                     </div>
                     <div class="col m6 s12">
-                        {{statusText}}
+                        {{#if isEmpty statusText}}
+                            {{#each statusText}}
+                                {{key}}: {{value}}
+                            {{/each}}
+                        {{/if}}
+
                     </div>
                 </div>
             </div>
@@ -72,17 +63,22 @@
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
         </div>
     </div>
-</template>
 
-<template name="backpackItem">
-    <li class="backpack-item" data-id="{{item.id}}">{{item.name}}</li>
+    <div id="backpackContent" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            {{>backpackContent}}
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+        </div>
+    </div>
 </template>
 
 <template name="infoAboutObject">
     {{#if objectProperty.name}}
         <h1>{{objectProperty.name}}</h1>
     {{/if}}
-    {{#if hasStatistics statistics}}
+    {{#if isEmpty statistics}}
         <h2>Properties</h2>
         <ul>
             {{#each statistics}}
@@ -98,4 +94,14 @@
     {{/if}}
 </template>
 
-
+<template name="backpackContent">
+    <h1>Backpack</h1>
+    <ul class='backback-list'>
+        {{#each backpack}}
+            {{>backpackItem}}
+        {{/each}}
+    </ul>
+</template>
+<template name="backpackItem">
+    <li><a class="backpack-item" data-_id="{{_id}}" href="#">{{name}}</a></li>
+</template>

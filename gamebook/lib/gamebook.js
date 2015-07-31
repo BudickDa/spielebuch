@@ -34,5 +34,4 @@ Gamebook = {
     Rule: Rule,
     Story: Story,
     Scene: Scene,
-    player: {}
 };

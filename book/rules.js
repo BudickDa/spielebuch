@@ -30,8 +30,10 @@
  */
 fireDamageReduced = new Gamebook.Rule('Feuerschaden', '-5');
 
-iron = new Gamebook.Rule('Stabilität', 260);
-fragile = new Gamebook.Rule('Stabilität', 30);
+iron = new Gamebook.Rule('Gesundheit', 260);
+fragile = new Gamebook.Rule('Gesundheit', 30);
+
+humanHealth = new Gamebook.Rule('Gesundheit', 80);
 
 
 

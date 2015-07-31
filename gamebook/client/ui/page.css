@@ -15,6 +15,11 @@
 .white-box:hover{
     background-color: rgba(0, 0, 0, 0.4);
 }
+
+.white-box.suppressed{
+    background-color: white;
+    opacity: 0;
+}
 /*Positioning of buttons on mousedown*/
 #center{
     display:block;

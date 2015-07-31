@@ -80,8 +80,13 @@ sceneOne.addEffect(rainy);
 /**
  * this time we want to use the backpack. This means we have to create a player.
  * In the constructor we can give him some effects (in our case )
+ * the player is added to the story.
+ *
+ * the player is human, so we add an effect with rule humanHealth that has been defined in /book/rules.js
  */
-Gamebook.player = new Player();
+var human = new Gamebook.Effect('Mensch', [humanHealth]);
+
+storyTwo.createNewPlayer(new Player([human]));
 
 /**
  * in the next step we have to add an event.
@@ -90,7 +95,8 @@ Gamebook.player = new Player();
  * Because we are lazy, we use addEvents and add the same function to different events
  */
 schwert.addEvents(['left','right'], function(){
-    schwert.take();
+    schwert.take(); //put the sword from the scene into the backpack
+    sceneOne.updateText(); //update the text, which does not mention the sword.
 },'Das Schwert in den Rucksack nehmen');
 
 

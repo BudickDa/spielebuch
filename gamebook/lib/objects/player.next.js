@@ -5,57 +5,100 @@
  */
 
 export class Player {
-    constructor(effects){
+    constructor(effects) {
         this.backpack = [];
+        this.backpackDep = new Tracker.Dependency(); //make backpack trackable so the view gets informed when something has changed
+
+
         this.leftHand = -1;
+        this.leftHandDep = new Tracker.Dependency();
+
         this.rightHand = -1;
-        if(effects)
+        this.rightHandDep = new Tracker.Dependency();
+
+        if (effects)
             this.effects = effects;
         else
             this.effects = [];
 
+        this.effectsDep = new Tracker.Dependency();
+
+    }
+
+    addToBackpack(object) {
+        this.backpack.push(object);
+        this.backpackDep.changed();
     }
 
     /**
-     * takes object from the right hand and puts it into the backback.
-     * It takes object from the right hand, when second paramter is set true
-     * @param fromLeftHand optional: set this paramter to take object from the left hand
+     * takes object from the left hand and puts it into the backback.
      */
-    addToBackpack(fromLeftHand){
-        if(fromLeftHand){
-            if(this.leftHand!==-1) {
-                this.backpack.push(this.leftHand);
-                this.leftHand = -1;
-            }
-        }else {
-            if(this.rightHand!==-1) {
-                this.backpack.push(this.rightHand);
-                this.rightHand = -1;
-            }
+    addToBackpackFromLeftHand() {
+        if (this.leftHand !== -1) {
+            this.backpack.push(this.leftHand);
+            this.backpackDep.changed();
+            this.leftHand = -1;
+            this.leftHandDep.changed();
+        }
+    }
+    /**
+     * takes object from the right hand and puts it into the backback.
+     */
+    addToBackpackFromRightHand() {
+        if (this.rightHand !== -1) {
+            this.backpack.push(this.rightHand);
+            this.backpackDep.changed();
+            this.rightHand = -1;
+            this.rightHandDep.changed();
+
         }
     }
 
-    removeFromBackpack(_id){
-
+    removeObjectFromBackpack(_id) {
+        var result = false, sceneObject, self = this;
+        _.each(self.backpack, function (object, index) {
+            if (object._id === _id) {
+                self.backpack.splice(index, 1);
+                self.backpackDep.changed();
+                result = true;
+            }
+        });
+        return result;
     }
 
-    getBackpack(){
+    getBackpack() {
+        this.backpackDep.depend();
         return this.backpack;
     }
 
-    takeLeftHand(object){
+    getObjectFromBackpack(_id){
+        var self = this, result = -1;
+        _.each(self.backpack, function (sceneObject) {
+            if (sceneObject._id === _id)
+                result = sceneObject;
+        });
+        if(result===-1)
+            hardDebugMsg('Object not found in backpack', 'The object with the id: '+_id+' is not in the backpack.');
+        return result;
+    }
+
+    takeLeftHand(object) {
         this.leftHand = object;
+        this.leftHandDep.changed();
     }
 
-    takeRightHand(object){
+    takeRightHand(object) {
         this.rightHand = object;
+        this.rightHandDep.changed();
     }
 
-    addEffect(effect){
+    addEffect(effect) {
         this.effects.push(effect);
+        this.effectsDep.changed();
     }
 
     getStats(name) {
+        this.effectsDep.depend();
         return getStats(this, name);
     }
 }

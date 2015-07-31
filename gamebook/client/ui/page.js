@@ -3,6 +3,15 @@
  * Copyright 2015, Daniel Budick, All rights reserved.
  */
 
+
+/**
+ * global helper
+ */
+Template.registerHelper("isEmpty", function (array) {
+    return array.length !== 0;
+});
+
+
 Template.infoAboutObject.helpers({
     statistics: function () {
         var statistics = [];
@@ -17,11 +26,18 @@ Template.infoAboutObject.helpers({
         }
         return statistics;
     },
-    hasStatistics: function (statistics) {
-        return statistics.length !== 0;
-    },
     objectProperty: function () {
         return Session.get('objectProperty');
+    }
+});
+
+Template.backpackContent.helpers({
+    backpack: function () {
+        var backpack = [];
+        if (Gamebook.story.player !== -1) { //this makes sure, that the story has a player defined.
+            backpack = Gamebook.story.player.getBackpack();
+        }
+        return backpack;
     }
 });
 
@@ -51,13 +67,20 @@ Template.page.helpers({
         return Session.get('focusText');
     },
     statusText: function () {
-        return Session.get('statusText');
-    },
-    backpack: function () {
-        return Gamebook.story.player.getBackpack();
+        var stats = [], statsAsObject;
+        if (Gamebook && Gamebook.story && Gamebook.story.player) {
+            statsAsObject = Gamebook.story.player.getStats();
+            if (statsAsObject) {
+                _.map(statsAsObject, function (value, key) {
+                    stats.push({key: key, value: value});
+                });
+            }
+        }
+        return stats;
     }
 });
 
+var menuActive = false;
 Template.page.events({
     'click .keyword, mousedown .keyword': function (event) {
         //get the id of the object and store it int the session for later use
@@ -65,6 +88,7 @@ Template.page.events({
         //prevent default
         event.preventDefault();
         Session.set('activatedObjectId', objectId);
+        menuActive = true;
         //test if left or right click
         if (event.button === 2)
             return showStats();
@@ -76,43 +100,68 @@ Template.page.events({
         return false;
     },
     'click .white-box, mouseup .white-box': function (event) {
-        var mousedown = $('#mousedown').hide();
-        var currentObject = Gamebook.story.getSceneObject(Session.get('activatedObjectId'));
-        var override = currentObject.overrrides[event.currentTarget.id]
-        if (override)
-            Session.set('actionText', override);
-        else
-            Session.set('actionText', ACTION.de[event.currentTarget.id]);
-        currentObject.fireEvent(event.currentTarget.id);
+        var currentObject, override, jCurrentTarget = $(event.currentTarget);
+        if (jCurrentTarget.hasClass('suppressed')) {
+            //this should be ignored, so we do nothing.
+            return;
+        }
+        $('#mousedown').hide();
+        if (menuActive) {
+            menuActive = false;
+
+            currentObject = Gamebook.story.getSceneObject(Session.get('activatedObjectId'));
+            override = currentObject.overrrides[event.currentTarget.id]
+
+            if (override)
+                Session.set('actionText', override);
+            else
+                Session.set('actionText', ACTION.de[event.currentTarget.id]);
+            currentObject.fireEvent(event.currentTarget.id);
+        }
     },
 
-    /* 'click .dropdown-button': function(event){
-
-     },
-     */
     /**
      * Put left or right hand into backback by clicking on it with left or right
      */
-    'click #backpack': function () {
+    'mouseup #backpack': function (event) {
         //prevent default
         event.preventDefault();
+
+
+        //we need to test, if there is player implemented, because no player -> no backpack
+        if (Gamebook.story.player === -1)
+            return;
+
         //test if left or right click
-        if(event.button === 0)
-            console.log('Drop left hand')
+        if (event.button === 0)
+            Gamebook.story.player.addToBackpackFromLeftHand();
         if (event.button === 2)
-            console.log('Drop right hand')
+            Gamebook.story.player.addToBackpackFromRightHand();
+
+    },
+    'click #openBackpack': function () {
+        event.preventDefault();
+        $('#backpackContent').openModal();
     },
     /**
      * Get left or right hand from backback by clicking on item with left or right
      */
-    'click #backpack': function () {
+    'mouseup .backpack-item': function (event) {
+        var gameObject = Gamebook.story.player.getObjectFromBackpack(event.currentTarget.dataset._id);
+        Gamebook.story.player.removeObjectFromBackpack(gameObject._id);
+
         //prevent default
         event.preventDefault();
+
+
         //test if left or right click
-        if(event.button === 0)
-            console.log('Put into left hand')
+        if (event.button === 0)
+            Gamebook.story.player.takeLeftHand(gameObject);
+
         if (event.button === 2)
-            console.log('Put into right hand')
+            Gamebook.story.player.takeRightHand(gameObject);
+
+        Session.set('actionText', 'Das ' + gameObject.name + ' wurde in die Hand genommen.');
     },
 
     /**
@@ -143,18 +192,16 @@ function showDaVince(objectId, position) {
     var currentObject = Gamebook.story.getSceneObject(objectId),
         elem = $('#mousedown');
 
-    console.log(currentObject.events);
     //count the elements
     var length = elem.children('.white-box').length;
     elem.children('.white-box').each(function () {
         var self = this;
         if (currentObject.events[this.id] === undefined) {
             length--;
-            $(this).hide();
+            $(this).toggleClass('suppressed');
         }
     });
     //we reduced the length for every object not implemented. If length === 0, there are no white-boxes, which means, we do not have show the mousedown menu
-    console.log(length);
     if (length !== 0) {
         elem.css({
             left: position.pageX - 50,

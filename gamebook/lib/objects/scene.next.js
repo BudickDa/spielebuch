@@ -106,11 +106,11 @@ export class Scene extends BaseObject {
      * @returns {boolean} returns -1 when nothing is found
      */
     removeSceneObject(_id) {
-        var result = false, sceneObject;
-        _.each(this.sceneObjects, function (object, index) {
+        var result = false, sceneObject, self = this;
+        _.each(self.sceneObjects, function (object, index) {
             sceneObject = object.sceneObject;
             if (sceneObject._id === _id) {
-                this.sceneObjects.splice(index, 1);
+                self.sceneObjects.splice(index, 1);
                 result = true;
             }
         });

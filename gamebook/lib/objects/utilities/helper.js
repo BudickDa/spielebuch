@@ -64,6 +64,7 @@ createStats = function(rules){
 
 /**
  *
+ * @param self is context where this function is called from. It has to used in object and self should be the context of the object (in most cases this)
  * @param name optional, if not set, returns all the effects. If set, returns only the stats of the chosen one
  * @returns {{}}
  */

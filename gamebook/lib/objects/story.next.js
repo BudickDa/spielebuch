@@ -10,15 +10,22 @@ export class Story extends BaseObject {
      * this.rules holds all the rules oft the story
      * this.sceneHistory the history the indices of scenes the player visited
      */
-    constructor(story) {
+    constructor() {
         this.scenes = [];
         this.effects = [];
         this.sceneHistory = [];
-        this.player = new Player();
+        this.player = -1;
     }
 
     addScene(scene) {
         return this.scenes.push(scene);
+    }
+
+    createNewPlayer(player){
+        if(this.player!==-1){
+            debugMsg('Overriding old player', 'This story already had a player. You killed him and created a new one. Are you sure, you know what you are doing?')
+        }
+        this.player = player;
     }
 
     /**
@@ -28,9 +35,9 @@ export class Story extends BaseObject {
     startScene(index) {
         var length = this.scenes.length;
         if (index >= length)
-            return debugMsg('This scene does not exist in story', 'Maybe the parameter scene was invalid or scene was not added to the Story.');
+            return hardDebugMsg('This scene does not exist in story', 'Maybe the parameter scene was invalid or scene was not added to the Story.');
         if (index < 0)
-            return debugMsg('The index is invalid', 'The index must be greater or equal 0');
+            return hardDebugMsg('The index is invalid', 'The index must be greater or equal 0');
         this.sceneHistory.push(index);
         return this.scenes[index].updateText();
     }
@@ -79,7 +86,7 @@ export class Story extends BaseObject {
      */
     start() {
         if (this.scenes.length === 0)
-            return debugMsg('This story has no scenes', 'You should create some scenes and add it to the story.');
+            return hardDebugMsg('This story has no scenes', 'You should create some scenes and add it to the story.');
         this.startScene(0);
     }
 
@@ -89,7 +96,7 @@ export class Story extends BaseObject {
      */
     currentScene() {
         if (this.sceneHistory.length === 0)
-            return debugMsg('This story has no scenes', 'You should create some scenes and add it to the story.');
+            return hardDebugMsg('This story has no scenes', 'You should create some scenes and add it to the story.');
         var index = _.last(this.sceneHistory);
         return this.scenes[index];
     }
