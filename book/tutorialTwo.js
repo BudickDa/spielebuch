@@ -30,11 +30,7 @@ sceneOne.howIsTheWeather();
  */
 var lowerHP = new Gamebook.Rule('Stabilität', '-15');
 var lowerDamage = new Gamebook.Rule('Nahkampfschaden', '-20');
-
-/**
- * these rules have absolute values, they set these values.
- */
-var swordDamage = new Gamebook.Rule('Nahkampfschaden', 60);
+var swordDamage = new Gamebook.Rule('Nahkampfschaden', '+60');
 
 /**
  * we create the effects and add the rules
@@ -83,8 +79,9 @@ sceneOne.addEffect(rainy);
  * the player is added to the story.
  *
  * the player is human, so we add an effect with rule humanHealth that has been defined in /book/rules.js
+ * and humanFistDamage to deal some damage with bare hands
  */
-var human = new Gamebook.Effect('Mensch', [humanHealth]);
+var human = new Gamebook.Effect('Mensch', [humanHealth, humanFistDamage]);
 
 storyTwo.createNewPlayer(new Player([human]));
 
@@ -102,8 +99,29 @@ schwert.addEvents(['left','right'], function(){
 
 /**
  * in the next step we have to add another event.
- * This event is triggered whenever something is hit
+ * This event is triggered whenever the table is
+ * hit with left or right.
+ *
+ * for this we call the players attackLeft method and attackRight method.
+ * We have to define the effect, that will be the damage. In our case it is called 'Nahkampfschaden'.
+ * We can chose several effects, so we must use an array.
+ *
+ * The second parameter should be the effect, the attack will reduce. In our case 'Gesundheit'.
+ *
+ * All this gives us a new effect, we can add to holztisch.
+ *
+ *
  */
+
+holztisch.addEvent('left', function(){
+    var damageEffect = Gamebook.story.player.attackLeft(['Nahkampfschaden'], 'Gesundheit'); //the var is important, because the damageEffect should exist in the scope of the function only.
+    holztisch.addEffect(damageEffect);
+}, 'Du schlägst auf den Tisch');
+holztisch.addEvent('right', function(){
+    var damageEffect = Gamebook.story.player.attackRight(['Nahkampfschaden'], 'Gesundheit');
+    holztisch.addEffect(damageEffect);
+}, 'Du schlägst auf den Tisch');
+
 
 
 

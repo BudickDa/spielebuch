@@ -35,25 +35,25 @@ createKeywordAnker = function (sceneObject) {
  * @param rules
  * @returns {{}}
  */
-createStats = function(rules){
+createStats = function (rules) {
     var stats = {};
-    _.each(rules,function(rule) {
+    _.each(rules, function (rule) {
         /**
          * If the stats already have his key (e.g. Hitpoints),
          * Compute with it or override it.
          * If it is not set (when undefined), set it
          */
-        if(stats[rule.key]===undefined){
+        if (stats[rule.key] === undefined) {
             stats[rule.key] = rule.value;
-        }else{
+        } else {
             /**
              * If the value is a string, it is a manipulator, it will be computed with the existing value.
              * If it is a numeric, it will override the value.
              */
-            if(typeof rule.value === 'string' || rule.value instanceof String){
+            if (typeof rule.value === 'string' || rule.value instanceof String) {
                 //we parse the values just to be sure. If stats[rule.key] was a manipulator we would do 'string'+'string' = 'stringstring' and this would be bad)
                 stats[rule.key] = parseInt(stats[rule.key]) + parseInt(rule.value);
-            }else{
+            } else {
                 //override the last value
                 stats[rule.key] = rule.value;
             }
@@ -68,16 +68,66 @@ createStats = function(rules){
  * @param name optional, if not set, returns all the effects. If set, returns only the stats of the chosen one
  * @returns {{}}
  */
-getStats = function(self ,name) {
+getStats = function (self, name) {
     var rules = [], rule, stat;
     _.each(self.effects, function (effect) {
         stat = effect.getStats();
         _.map(stat, function (value, key) {
-            if(name === undefined || key === name) {
+            if (name === undefined || key === name) {
                 rule = {key: key, value: value};
                 rules.push(rule);
             }
         });
     });
     return createStats(rules);
+}
+
+/**
+ * Creates a damage object
+ * @param self: the object, that is attacking
+ * @param methodsEffects: the effects that are used to attack (e.g. 'Nahkampfschaden')
+ * @param helperObject: object that is used to deal damage
+ * @param targetEffect: The effect that will be reduced by the amount of damage.
+ */
+createDamageObject = function (self, methodsEffects, helperObject, targetEffect) {
+    var helperObjectDamage = 0, //damage that is created by the object, that was used.
+        selfDamage = 0, //damage that is created by the object self (player or npc).
+        amount = 0;
+    _.each(methodsEffects, function (effect) {
+        selfDamage = self.getStats(effect)[effect];
+        if (helperObject !== -1)
+            helperObjectDamage = helperObject.getStats(effect)[effect];
+        else
+            helperObjectDamage = undefined;
+        if(selfDamage)
+            amount += selfDamage;
+        if(helperObjectDamage)
+            amount += selfDamage;
+    });
+
+    amount = amount * -1;
+    console.log(amount.toString());
+    return new Effect('damage', [new Rule(targetEffect, amount.toString())])
+}
+
+
+statsToRuleArray = function(statsAsObject){
+    var statsAsArray = [];
+    _.map(statsAsObject, function (value, key) {
+        statsAsArray.push({key: key, value: value});
+    });
+    return statsAsArray;
+}
+
+deleteAbsoluteValues = function(rules){
+    if(rules===undefined)
+        return [];
+    if(rules.length===0)
+        return [];
+    _.map(rules, function(rule){
+        if ( !(typeof rule.value === 'string' || rule.value instanceof String)) { // all the absolute values will set '0'
+            rule.value = '0';
+        }
+    });
+    return rules;
 }

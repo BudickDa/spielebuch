@@ -24,7 +24,9 @@ export class SceneObject extends BaseObject {
     constructor(name) {
         this._id = chance.guid();
         this.name = name;
+
         this.effects = [];
+        this.effectsDep = new Tracker.Dependency();
 
         this.events = {};
 
@@ -44,6 +46,7 @@ export class SceneObject extends BaseObject {
 
     addEffect(effect) {
         this.effects.push(effect);
+        this.effectsDep.changed();
     }
 
     /**
@@ -92,11 +95,11 @@ export class SceneObject extends BaseObject {
     fireEvent(event) {
         if (!validateEvent(event))
             return;
-
         this.events[event]();
     }
 
     getStats(name) {
+        this.effectsDep.depend();
         return getStats(this, name);
     }
 

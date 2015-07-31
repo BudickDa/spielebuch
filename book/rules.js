@@ -30,10 +30,13 @@
  */
 fireDamageReduced = new Gamebook.Rule('Feuerschaden', '-5');
 
+/**
+ * these rules have absolute values, they set these values.
+ */
 iron = new Gamebook.Rule('Gesundheit', 260);
 fragile = new Gamebook.Rule('Gesundheit', 30);
-
 humanHealth = new Gamebook.Rule('Gesundheit', 80);
+humanFistDamage = new Gamebook.Rule('Nahkampfschaden', 20);
 
 
 

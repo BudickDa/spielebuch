@@ -39,8 +39,10 @@ export class Player {
             this.backpackDep.changed();
             this.leftHand = -1;
             this.leftHandDep.changed();
+            this.effectsDep.changed();
         }
     }
+
     /**
      * takes object from the right hand and puts it into the backback.
      */
@@ -50,6 +52,7 @@ export class Player {
             this.backpackDep.changed();
             this.rightHand = -1;
             this.rightHandDep.changed();
+            this.effectsDep.changed();
 
         }
     }
@@ -71,25 +74,27 @@ export class Player {
         return this.backpack;
     }
 
-    getObjectFromBackpack(_id){
+    getObjectFromBackpack(_id) {
         var self = this, result = -1;
         _.each(self.backpack, function (sceneObject) {
             if (sceneObject._id === _id)
                 result = sceneObject;
         });
-        if(result===-1)
-            hardDebugMsg('Object not found in backpack', 'The object with the id: '+_id+' is not in the backpack.');
+        if (result === -1)
+            hardDebugMsg('Object not found in backpack', 'The object with the id: ' + _id + ' is not in the backpack.');
         return result;
     }
 
     takeLeftHand(object) {
         this.leftHand = object;
         this.leftHandDep.changed();
+        this.effectsDep.changed();
     }
 
     takeRightHand(object) {
         this.rightHand = object;
         this.rightHandDep.changed();
+        this.effectsDep.changed();
     }
 
     addEffect(effect) {
@@ -98,7 +103,44 @@ export class Player {
     }
 
     getStats(name) {
-        this.effectsDep.depend();
-        return getStats(this, name);
+        var ruleArray, self = this, handRules = [];
+        ruleArray = statsToRuleArray(getStats(self, name));
+        if(self.leftHand !== -1){
+            handRules = handRules.concat(statsToRuleArray(self.leftHand.getStats(name)));
+        }
+        if(self.rightHand !== -1){
+            handRules = handRules.concat(statsToRuleArray(self.rightHand.getStats(name)));
+        }
+        /**
+         * we have to get rid of the absolute effects of the items we carry.
+         * Or else the player would have the health of a sword. And this makes no sense.
+         */
+        handRules = deleteAbsoluteValues(handRules);
+
+        ruleArray = ruleArray.concat(handRules);
+
+
+        self.effectsDep.depend();
+        return createStats(ruleArray);
+    }
+
+
+    /**
+     * Creates damage effect
+     * @param methods: methods that are used to attack (e.g. 'Nahkampfschaden')
+     * @param targetedEffect: the effect that will be reduced by the amount of damage (e.g. 'Gesundheit')
+     */
+    attackLeft(methods, targetedEffect) {
+        var self = this,
+            helperObject = self.leftHand; //thing that is in the players hand and deals damage.
+        return createDamageObject(self, methods, helperObject, targetedEffect);
+
+    }
+
+    attackRight(methods, targetedEffect) {
+        var self = this,
+            helperObject = self.rightHand; //thing that is in the players hand and deals damage.
+        return createDamageObject(self, methods, helperObject, targetedEffect);
     }
 }
+

@@ -63,6 +63,7 @@ item get properties (name and description) for the view and store them into the 
  a 'Schwert' can have always the same default properties. So if I write 'Schwert' in my story I have not to care about its properties.
  As a consequence, one could make a library with a lot of items and create random generated scenes. Or even better: a hybrid solution. Some scenes are handmade, others are generated.
  You walk through the forest, everything is generated, you can find items, enemies and friends... but the you find a house. You go in and a handmade scene starts that drives the story forward.
+- actio = ractio: meaning, that when you attack something (hit it with a stick), it 'hits' back and the stick breaks.
 
 # Language
 This is a german project, this means the examples are written in german for now. I promise there will be a example in english soon. 
