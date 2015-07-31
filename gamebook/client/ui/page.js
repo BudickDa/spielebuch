@@ -53,27 +53,26 @@ Template.page.helpers({
     statusText: function () {
         return Session.get('statusText');
     },
-    backback: function () {
-        //return Gamebook.story.player.printBackback();
-        return '<li>Schriftrolle</li><li>Karte</li>';
-
+    backpack: function () {
+        return Gamebook.story.player.getBackpack();
     }
 });
 
 Template.page.events({
     'click .keyword, mousedown .keyword': function (event) {
         //get the id of the object and store it int the session for later use
-        var objectId = event.currentTarget.dataset.objectid;
+        var objectId = event.currentTarget.dataset.objectid, position;
         //prevent default
         event.preventDefault();
         Session.set('activatedObjectId', objectId);
         //test if left or right click
         if (event.button === 2)
-            showStats();
+            return showStats();
 
 
+        position = {pageX: event.pageX, pageY: event.pageY};
         //if it was a left click, show daVince View
-        showDaVince(objectId);
+        showDaVince(objectId, position);
         return false;
     },
     'click .white-box, mouseup .white-box': function (event) {
@@ -92,13 +91,28 @@ Template.page.events({
      },
      */
     /**
-     * Show left and right hand on backback
+     * Put left or right hand into backback by clicking on it with left or right
      */
-    'click .backback-left, mouseup .white-box.backback-left': function () {
-
+    'click #backpack': function () {
+        //prevent default
+        event.preventDefault();
+        //test if left or right click
+        if(event.button === 0)
+            console.log('Drop left hand')
+        if (event.button === 2)
+            console.log('Drop right hand')
     },
-    'click .backback-right, mouseup .white-box.backback-right': function () {
-
+    /**
+     * Get left or right hand from backback by clicking on item with left or right
+     */
+    'click #backpack': function () {
+        //prevent default
+        event.preventDefault();
+        //test if left or right click
+        if(event.button === 0)
+            console.log('Put into left hand')
+        if (event.button === 2)
+            console.log('Put into right hand')
     },
 
     /**
@@ -125,23 +139,26 @@ function showStats() {
  * Show davince view for the element with this objectId
  * @param objectId
  */
-function showDaVince(objectId) {
+function showDaVince(objectId, position) {
     var currentObject = Gamebook.story.getSceneObject(objectId),
         elem = $('#mousedown');
 
+    console.log(currentObject.events);
     //count the elements
     var length = elem.children('.white-box').length;
     elem.children('.white-box').each(function () {
         var self = this;
-        length--;
-        if (currentObject.events[this.id] === undefined)
+        if (currentObject.events[this.id] === undefined) {
+            length--;
             $(this).hide();
+        }
     });
     //we reduced the length for every object not implemented. If length === 0, there are no white-boxes, which means, we do not have show the mousedown menu
+    console.log(length);
     if (length !== 0) {
         elem.css({
-            left: event.pageX - 50,
-            top: event.pageY - 50
+            left: position.pageX - 50,
+            top: position.pageY - 50
         }).show();
     }
 }

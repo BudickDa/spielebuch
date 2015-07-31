@@ -26,9 +26,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col m6 s12">
-                        <a class='dropdown-button btn red darken-3' href='#' data-activates='dropdown1'>Rucksack</a>
+                        <a id="backpack" class='dropdown-button btn red darken-3' href='#' data-activates='dropdown1'>Rucksack</a>
                         <ul id='dropdown1' class='dropdown-content backback-list'>
-                            {{{backback}}}
+                            {{#each backpack}}
+                                {{>backpackItem}}
+                            {{/each}}
                         </ul>
                         <script>
                             $('.dropdown-button').dropdown({
@@ -67,27 +69,32 @@
             {{>infoAboutObject}}
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
         </div>
-
     </div>
 </template>
 
-<template name="infoAboutObject">
-    {{#if objectProperty}}
-        <h4>{{objectProperty.name}}</h4>
+<template name="backpackItem">
+    <li class="backpack-item" data-id="{{item.id}}">{{item.name}}</li>
+</template>
 
-        {{#if objectProperty.wikiText}}
-            <p>{{{objectProperty.wikiText}}}</p>
-        {{/if}}
+<template name="infoAboutObject">
+    {{#if objectProperty.name}}
+        <h1>{{objectProperty.name}}</h1>
     {{/if}}
     {{#if hasStatistics statistics}}
-        <h4>Eigenschaften</h4>
+        <h2>Properties</h2>
         <ul>
             {{#each statistics}}
                 <li>{{key}}: {{value}}</li>
             {{/each}}
         </ul>
+    {{/if}}
+    {{#if objectProperty.wikiText}}
+        <h2>Description</h2>
+        {{#if objectProperty.wikiText}}
+            <p>{{{objectProperty.wikiText}}}</p>
+        {{/if}}
     {{/if}}
 </template>
 

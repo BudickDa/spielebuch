@@ -4,12 +4,14 @@
  * Contact: daniel@budick.eu / http://budick.eu
  */
 
-debugMsg = function(title,msg){
-    if(Meteor.isServer)
+debugMsg = function (title, msg) {
+    if (Meteor.isServer)
         throw new Meteor.Error(500, title + '\n' + msg);
-    if(Meteor.isClient) {
-        console.log(title);
-        console.log(msg);
+    if (Meteor.isClient) {
+        if (console && console.log) {
+            console.log(title);
+            console.log(msg);
+        }
         Notifications.error(title, msg);
     }
 }

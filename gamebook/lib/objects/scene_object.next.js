@@ -50,7 +50,7 @@ export class SceneObject extends BaseObject {
      * take object into inventory
      */
     take() {
-        Gamebook.player.addToBackback(this);
+        Gamebook.player.addToBackpack(this);
         Gamebook.story.currentScene().removeSceneObject(this._id);
     }
 
@@ -76,6 +76,19 @@ export class SceneObject extends BaseObject {
             this.overrrides[event] = name;
     }
 
+    /**
+     * does the same as addEvent, only to an array of events
+     * @param events e.g. ['left', 'right']
+     * @param callback is connected to each event
+     * @param name is used for all the events
+     */
+    addEvents(events, callback, name) {
+        var self = this; //this is a typical example, where when this is needed it not longer exists. You got to <3 JavaScript
+        _.forEach(events, function(event){
+            self.addEvent(event, callback, name);
+        });
+    }
+
     fireEvent(event) {
         if (!validateEvent(event))
             return;
@@ -83,25 +96,10 @@ export class SceneObject extends BaseObject {
         this.events[event]();
     }
 
-    getStats() {
-        var rules = [], rule, stat;
-        _.each(this.effects, function (effect) {
-            stat = effect.getStats();
-            _.map(stat, function (value, key) {
-                rule = {key: key, value: value};
-                rules.push(rule);
-            });
-        });
-        return createStats(rules);
+    getStats(name) {
+        return getStats(this, name);
     }
 
 
-    /**
-     *
-     * @param name string with the name of the key of the property (e.g. meleeDamage, hitpoints)
-     */
-    getPropertyValueByName(name) {
-
-    }
 
 }

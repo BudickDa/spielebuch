@@ -33,5 +33,6 @@ Gamebook = {
     Effect: Effect,
     Rule: Rule,
     Story: Story,
-    Scene: Scene
+    Scene: Scene,
+    player: {}
 };

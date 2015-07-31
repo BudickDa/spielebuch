@@ -116,4 +116,8 @@ export class Scene extends BaseObject {
         });
         return result;
     }
+
+    getStats(name) {
+        return getStats(this, name);
+    }
 }

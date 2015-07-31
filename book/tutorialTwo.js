@@ -76,8 +76,26 @@ schwert.addEffect(new Gamebook.Effect('default', [swordDamage,iron]));
 var rainy = new Gamebook.Effect('rainy', [fireDamageReduced]);
 sceneOne.addEffect(rainy);
 
+
+/**
+ * this time we want to use the backpack. This means we have to create a player.
+ * In the constructor we can give him some effects (in our case )
+ */
+Gamebook.player = new Player();
+
 /**
  * in the next step we have to add an event.
+ * we have to define what happens when we use the sword with the left and right hand.
+ * if we use the object, the player should put it in his backpack
+ * Because we are lazy, we use addEvents and add the same function to different events
+ */
+schwert.addEvents(['left','right'], function(){
+    schwert.take();
+},'Das Schwert in den Rucksack nehmen');
+
+
+/**
+ * in the next step we have to add another event.
  * This event is triggered whenever something is hit
  */
 

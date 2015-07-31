@@ -5,10 +5,14 @@
  */
 
 export class Player {
-    constructor(){
-        this.backback = [];
+    constructor(effects){
+        this.backpack = [];
         this.leftHand = -1;
         this.rightHand = -1;
+        if(effects)
+            this.effects = effects;
+        else
+            this.effects = [];
 
     }
 
@@ -17,30 +21,41 @@ export class Player {
      * It takes object from the right hand, when second paramter is set true
      * @param fromLeftHand optional: set this paramter to take object from the left hand
      */
-    addToBackback(fromLeftHand){
+    addToBackpack(fromLeftHand){
         if(fromLeftHand){
             if(this.leftHand!==-1) {
-                this.backback.push(this.leftHand);
+                this.backpack.push(this.leftHand);
                 this.leftHand = -1;
             }
         }else {
             if(this.rightHand!==-1) {
-                this.backback.push(this.rightHand);
+                this.backpack.push(this.rightHand);
                 this.rightHand = -1;
             }
         }
     }
 
-    removeFromBackback(_id){
+    removeFromBackpack(_id){
 
     }
 
-    printBackback(){
-        var html = '';
-        _.forEach(this.backback, function(object){
-            html += createKeywordAnker(object);
-        });
-        return html;
+    getBackpack(){
+        return this.backpack;
     }
 
+    takeLeftHand(object){
+        this.leftHand = object;
+    }
+
+    takeRightHand(object){
+        this.rightHand = object;
+    }
+
+    addEffect(effect){
+        this.effects.push(effect);
+    }
+
+    getStats(name) {
+        return getStats(this, name);
+    }
 }

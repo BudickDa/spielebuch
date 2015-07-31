@@ -61,3 +61,22 @@ createStats = function(rules){
     });
     return stats;
 }
+
+/**
+ *
+ * @param name optional, if not set, returns all the effects. If set, returns only the stats of the chosen one
+ * @returns {{}}
+ */
+getStats = function(self ,name) {
+    var rules = [], rule, stat;
+    _.each(self.effects, function (effect) {
+        stat = effect.getStats();
+        _.map(stat, function (value, key) {
+            if(name === undefined || key === name) {
+                rule = {key: key, value: value};
+                rules.push(rule);
+            }
+        });
+    });
+    return createStats(rules);
+}

@@ -107,4 +107,8 @@ export class Story extends BaseObject {
             return debugMsg('This sceneObject does not exist', 'The sceneObject with the id: ' + _id + ' does not exist.');
         return sceneObject;
     }
+
+    getStats(name) {
+        return getStats(this, name);
+    }
 }
