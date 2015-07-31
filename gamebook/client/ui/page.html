@@ -2,14 +2,9 @@
     <main>
         <div class="container">
 
-            {{#if criticalTimingActive}}
+            {{#if criticalTiming}}
                 <div class="progress">
                     <div class="determinate  red darken-4" style="width: {{criticalTiming}}%"></div>
-                </div>
-            {{/if}}
-            {{#if normalTimingActive}}
-                <div class="progress">
-                    <div class="determinate  blue darken-4" style="width: {{normalTiming}}%"></div>
                 </div>
             {{/if}}
             <div id="action-text">
@@ -17,10 +12,6 @@
             </div>
 
             <p>{{{mainText}}}</p>
-
-            {{#if focusTextActive}}
-                <div id="focus-text">{{focusText}}</div>
-            {{/if}}
         </div>
         <footer class="page-footer">
             <div class="container">

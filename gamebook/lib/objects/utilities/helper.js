@@ -94,15 +94,16 @@ createDamageObject = function (self, methodsEffects, helperObject, targetEffect)
         selfDamage = 0, //damage that is created by the object self (player or npc).
         amount = 0;
     _.each(methodsEffects, function (effect) {
+
         selfDamage = self.getStats(effect)[effect];
         if (helperObject !== -1)
             helperObjectDamage = helperObject.getStats(effect)[effect];
         else
             helperObjectDamage = undefined;
         if(selfDamage)
-            amount += selfDamage;
+            amount += parseInt(selfDamage);
         if(helperObjectDamage)
-            amount += selfDamage;
+            amount += parseInt(helperObjectDamage);
     });
 
     amount = amount * -1;

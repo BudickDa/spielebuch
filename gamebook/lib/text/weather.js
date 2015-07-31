@@ -7,12 +7,12 @@
 weatherTypes = {
     rainy: {
         text:{
-            de: 'Es regnet.'
+            de: 'Es regnet. '
         }
     },
     sunny: {
         text:{
-            de:  'Es scheint die Sonne.'
+            de:  'Es scheint die Sonne. '
         }
     }
 };

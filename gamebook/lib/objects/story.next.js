@@ -39,6 +39,9 @@ export class Story extends BaseObject {
         if (index < 0)
             return hardDebugMsg('The index is invalid', 'The index must be greater or equal 0');
         this.sceneHistory.push(index);
+        if(typeof this.scenes[index].onStart=== "function"){
+            this.scenes[index].onStart();
+        }
         return this.scenes[index].updateText();
     }
 
@@ -118,4 +121,5 @@ export class Story extends BaseObject {
     getStats(name) {
         return getStats(this, name);
     }
+
 }

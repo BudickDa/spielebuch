@@ -10,6 +10,7 @@ export class Scene extends BaseObject {
         this.sceneObjects = [];
         this.text = '';
         this.effects = [];
+        this.onStart;
     }
 
 
@@ -24,7 +25,7 @@ export class Scene extends BaseObject {
      */
     howIsTheWeather(language) {
         if (!language)
-            language = defaultLanguage; //no language param, take default language
+            language = Gamebook.config.defaultLanguage; //no language param, take default language
         var weather = this.environment.getWeather();
         if (weather.text) {
             if (weather.text[language]) {
@@ -49,6 +50,14 @@ export class Scene extends BaseObject {
      */
     addText(text) {
         this.text += text;
+    }
+
+    /**
+     * overrides existing text, is an alternative to a scenechange
+     * @param text
+     */
+    overrideText(text){
+        this.text = text;
     }
 
     /**

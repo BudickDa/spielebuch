@@ -38,13 +38,3 @@ fragile = new Gamebook.Rule('Gesundheit', 30);
 humanHealth = new Gamebook.Rule('Gesundheit', 80);
 humanFistDamage = new Gamebook.Rule('Nahkampfschaden', 20);
 
-
-
-
-
-/**
- * if no other language is chosen, we take german.
- * @type {string}
- */
-defaultLanguage = 'de';
-

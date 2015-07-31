@@ -42,29 +42,14 @@ Template.backpackContent.helpers({
 });
 
 Template.page.helpers({
-    criticalTimingActive: function () {
-        return Session.get('criticalTimingActive');
-    },
     criticalTiming: function () {
         return Session.get('criticalTiming');
-    },
-    normalTimingActive: function () {
-        return Session.get('normalTimingActive');
-    },
-    normalTiming: function () {
-        return Session.get('normalTiming');
     },
     actionText: function () {
         return Session.get('actionText');
     },
     mainText: function () {
         return Session.get('mainText');
-    },
-    focusTextActive: function () {
-        return Session.get('focusTextActive');
-    },
-    focusText: function () {
-        return Session.get('focusText');
     },
     statusText: function () {
         var stats = [], statsAsObject;
@@ -100,23 +85,30 @@ Template.page.events({
         return false;
     },
     'click .white-box, mouseup .white-box': function (event) {
-        var currentObject, override, jCurrentTarget = $(event.currentTarget);
+        var currentObject, override, jCurrentTarget = $(event.currentTarget), eventId = event.currentTarget.id;
+        $('#mousedown').css({'top':'-2000px'}).hide();
         if (jCurrentTarget.hasClass('suppressed')) {
             //this should be ignored, so we do nothing.
             return;
         }
-        $('#mousedown').hide();
         if (menuActive) {
             menuActive = false;
 
             currentObject = Gamebook.story.getSceneObject(Session.get('activatedObjectId'));
-            override = currentObject.overrrides[event.currentTarget.id]
 
-            if (override)
+
+            if (currentObject.checkOverride(eventId)) {
+                override = currentObject.overrrides[eventId];
                 Session.set('actionText', override);
-            else
+            }
+            else {
                 Session.set('actionText', ACTION.de[event.currentTarget.id]);
-            currentObject.fireEvent(event.currentTarget.id);
+            }
+            if(currentObject.checkEvent(eventId)) {
+                currentObject.fireEvent(eventId);
+            }else{
+
+            }
         }
     },
 
@@ -171,13 +163,11 @@ Template.page.events({
         /**
          * if click is on an element or if it is a keyup, hide daVinci-view
          */
-        $('#mousedown').hide();
+        $('#mousedown').css({'top':'-2000px'}).hide();
     }
 });
 
-/**
- * Shows stats in toast for chosen object
- */
+
 function showStats() {
     Session.set('objectProperty', false);
     setObjectProperties(Session.get('activatedObjectId'));
@@ -190,15 +180,16 @@ function showStats() {
  */
 function showDaVince(objectId, position) {
     var currentObject = Gamebook.story.getSceneObject(objectId),
-        elem = $('#mousedown');
+        elem = $('#mousedown'),
+        self;
 
     //count the elements
     var length = elem.children('.white-box').length;
     elem.children('.white-box').each(function () {
-        var self = this;
-        if (currentObject.events[this.id] === undefined) {
+        self = $(this);
+        if (! currentObject.checkEvent(self.attr('id'))) {
             length--;
-            $(this).toggleClass('suppressed');
+            self.toggleClass('suppressed');
         }
     });
     //we reduced the length for every object not implemented. If length === 0, there are no white-boxes, which means, we do not have show the mousedown menu
@@ -209,4 +200,3 @@ function showDaVince(objectId, position) {
         }).show();
     }
 }
-

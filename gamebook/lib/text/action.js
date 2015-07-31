@@ -17,3 +17,10 @@ ACTION = {
         top: 'Sprechen'
     }
 }
+
+I18N = {
+    de: {
+        leftHand: 'Linke Hand',
+        rightHand: 'Rechte Hand'
+    }
+}

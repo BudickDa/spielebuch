@@ -117,7 +117,7 @@ export class Player {
          */
         handRules = deleteAbsoluteValues(handRules);
 
-        ruleArray = ruleArray.concat(handRules);
+        //ruleArray = ruleArray.concat(handRules); //this is a problem, if this value is computed in, all items count double
 
 
         self.effectsDep.depend();
@@ -142,5 +142,7 @@ export class Player {
             helperObject = self.rightHand; //thing that is in the players hand and deals damage.
         return createDamageObject(self, methods, helperObject, targetedEffect);
     }
+
+
 }
 
