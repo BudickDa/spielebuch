@@ -67,7 +67,7 @@ Template.page.helpers({
 
 var menuActive = false;
 Template.page.events({
-    'click .keyword, mousedown .keyword': function (event) {
+    'mousedown .keyword': function (event) {
         //get the id of the object and store it int the session for later use
         var objectId = event.currentTarget.dataset.objectid, position;
         //prevent default
@@ -81,11 +81,12 @@ Template.page.events({
 
         position = {pageX: event.pageX, pageY: event.pageY};
         //if it was a left click, show daVince View
-        showDaVince(objectId, position);
+        showDaVince(Gamebook.story.getSceneObject(objectId), position);
         return false;
     },
-    'click .white-box, mouseup .white-box': function (event) {
+    'mouseup .white-box': function (event) {
         var currentObject, override, jCurrentTarget = $(event.currentTarget), eventId = event.currentTarget.id;
+        event.preventDefault();
         $('#mousedown').css({'top':'-2000px'}).hide();
         if (jCurrentTarget.hasClass('suppressed')) {
             //this should be ignored, so we do nothing.
@@ -178,9 +179,8 @@ function showStats() {
  * Show davince view for the element with this objectId
  * @param objectId
  */
-function showDaVince(objectId, position) {
-    var currentObject = Gamebook.story.getSceneObject(objectId),
-        elem = $('#mousedown'),
+function showDaVince(currentObject, position) {
+    var elem = $('#mousedown'),
         self;
 
     //count the elements
@@ -189,7 +189,9 @@ function showDaVince(objectId, position) {
         self = $(this);
         if (! currentObject.checkEvent(self.attr('id'))) {
             length--;
-            self.toggleClass('suppressed');
+            self.addClass('suppressed');
+        }else{
+            self.removeClass('suppressed');
         }
     });
     //we reduced the length for every object not implemented. If length === 0, there are no white-boxes, which means, we do not have show the mousedown menu

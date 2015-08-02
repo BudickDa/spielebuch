@@ -134,42 +134,38 @@ storyTwo.defaultHitpoints = 'Gesundheit';
  * So we define a afterDestruction hook
  */
 holztisch.afterDestruction = function () {
-    sceneOne.addText('Die Tümmer des Holztisches sind in der Gegend verteilt.');
-    sceneOne.updateText();
-
-    /**
-     * but we want more. A countdown should start. And the scene will change in 5 seconds
-     */
-    Meteor.setTimeout(function () {
+    console.log('Holztisch destroyed');
+    var truemmer = sceneOne.createKeyword('Die [Tümmer] des Holztisches sind in der Gegend verteilt. ');
+    truemmer.addEvent('bottom', function () {
         storyTwo.nextScene();
-    }, 2500);
+    });
+    sceneOne.updateText();
 };
 
 /**
  * we create the next scene. This time we want sunny weather.
  */
 var sceneTwo = new Gamebook.Scene('sunny');
-sceneTwo.addText('Deine Beine sind noch wackelig. Die Luft um dich herum riecht nach Schwefel. Du hörst Schritte...');
+sceneTwo.addText('Die Welt um dich herum explodiert, also du wieder zu dir kommst, ist dein Blick verschwommen. Langsam stehst du auf. Deine Beine sind noch wackelig. Die Luft um dich herum riecht nach Schwefel. Du hörst Schritte...');
 var etwas = sceneTwo.createKeyword('Vor dir im Nebel ist [etwas]...');
 etwas.addEvent('center', function () {
     //do nothing, because player can see nothing.
 }, 'Du starrst und starrst, aber kannst nichts erkennen.');
 etwas.addEvent('bottom', function () {
     /**
-     * wir wollen Spannung. Deswegen nutzen wir für diesen Countdown die UI
+     * here we have to use the Gamebook object to go to the next scene.
+     * but we do this afte a countdown to make things more exiting
      */
-    Gamebook.startUiCountdown(3000, 200, function () {
-        /**
-         * here we have to use the Gamebook object to go to the next scene.
-         */
-        Gamebook.story.nextScene();
-
+    Gamebook.startUiCountdown(3000, 300, function(){
+        storyTwo.nextScene();
     });
+
+
 }, 'Du gehst darauf zu.');
 
 
-var sceneThree  = new Gamebook.Scene();
-sceneThree.addText("Stille, die Luft hat sich geklärt. Du stehst auf einer Wiese");
+var sceneThree = new Gamebook.Scene();
+sceneThree.addText("Stille, die Luft hat sich geklärt. Du stehst auf einer Wiese. ");
 sceneThree.howIsTheWeather(); //we tell the weather, just because we can.
 /**
  * let's give the user a possibility to get to the final scene:
@@ -179,7 +175,7 @@ var button = sceneThree.createKeyword('Vor dir auf einer Säule ist ein [Knopf].
  * if the use pushes the button he will be teleported to the last scene
  */
 button.addEvents(['left', 'right'], function () {
-    sceneThree.nextScene();
+    storyTwo.nextScene();
 }, 'Du drückst den Knopf, du drückst ihn für die Ehre!')
 
 sceneThree.updateText();
@@ -207,18 +203,18 @@ sceneFour.onStart = function () {
          * after the countdown, the fighter will kick our ass
          */
         var asskick = new Effect('Todesschlag', [new Rule('Gesundheit', '-200')]);
-        Gamebook.story.player.addEffect(asskick);
+        storyTwo.player.addEffect(asskick);
     });
 };
 /**
  * we need to kill the fighter, this means we have to add some events
  */
 fighter.addEvent('left', function () {
-    var damageEffect = Gamebook.story.player.attackLeft(['Nahkampfschaden'], 'Gesundheit'); //the var is important, because the damageEffect should exist in the scope of the function only.
+    var damageEffect = storyTwo.player.attackLeft(['Nahkampfschaden'], 'Gesundheit'); //the var is important, because the damageEffect should exist in the scope of the function only.
     fighter.addEffect(damageEffect);
 }, 'Du schlägst mit links');
 fighter.addEvent('right', function () {
-    var damageEffect = Gamebook.story.player.attackRight(['Nahkampfschaden'], 'Gesundheit');
+    var damageEffect = storyTwo.player.attackRight(['Nahkampfschaden'], 'Gesundheit');
     fighter.addEffect(damageEffect);
 }, 'Du schlägst mit rechts');
 
@@ -229,7 +225,21 @@ fighter.addEvent('right', function () {
  */
 fighter.afterDestruction = function () {
     Gamebook.stopCountdown(killSwitch);
-    sceneFour.overrideText('Glückwunsch, Du hast das Abenteuer bestanden.')
+    sceneFour.overrideText('Glückwunsch, Du hast das Abenteuer bestanden.');
+    sceneFour.updateText();
+};
+
+/**
+ * If the player looses, we need to print a message.
+ */
+storyTwo.player.afterDestruction = function () {
+    //we have to destroy the keyword of the fighter, but before this we have to override the after destruction event
+    fighter.afterDestruction = function () {
+        //do nothing
+    };
+    fighter.destroy();
+    sceneFour.overrideText('Game over, Du hast verloren. Mehr Glück beim nächsten Mal.');
+    sceneFour.updateText();
 };
 
 

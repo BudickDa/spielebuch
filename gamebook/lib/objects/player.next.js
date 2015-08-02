@@ -16,12 +16,32 @@ export class Player {
         this.rightHand = -1;
         this.rightHandDep = new Tracker.Dependency();
 
+        this.afterDestruction = undefined;
+        /**
+         * these parameter can be set with a function
+         * that will be executed before and after an event is fired.
+         * @type {function}
+         */
+        this.beforeHookOverride = undefined;
+        this.afterHookOverride = undefined;
+
         if (effects)
             this.effects = effects;
         else
             this.effects = [];
 
         this.effectsDep = new Tracker.Dependency();
+
+    }
+
+    /**
+     * deletes object from scene
+     */
+    destroy() {
+        var self = this;
+        if (typeof self.afterDestruction === "function") {
+            self.afterDestruction();
+        }
 
     }
 
@@ -122,6 +142,34 @@ export class Player {
 
         self.effectsDep.depend();
         return createStats(ruleArray);
+    }
+
+    beforeHook(cb) {
+        if (typeof self.beforeHookOverride === "function")
+            self.afterHookOverride();
+        return cb();
+    }
+
+    afterHook() {
+        var self = this, health;
+
+        if (typeof self.afterHookOverride === "function") {
+            self.afterHookOverride();
+        } else {
+            /**
+             * Things can only break if we now, what stats we have to observe
+             * */
+            if (Gamebook.story.defaultHitpoints) {
+                health = self.getStats(Gamebook.story.defaultHitpoints)[Gamebook.story.defaultHitpoints];
+
+                /**
+                 * health has to be subzero
+                 * */
+                if (health < 0) {
+                    self.destroy();
+                }
+            }
+        }
     }
 
 

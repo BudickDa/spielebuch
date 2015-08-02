@@ -44,14 +44,27 @@ Gamebook = {
     startUiCountdown: function (timeInMs, steps, cb) {
         var time = timeInMs;
         Session.set('criticalTiming', (time / timeInMs) * 100);
-        return Meteor.setInterval(function () {
+        killSwitch = Meteor.setInterval(function () {
             time -= steps;
             Session.set('criticalTiming', (time / timeInMs) * 100);
             if (time < 0) {
                 Session.set('criticalTiming', 0);
+                Gamebook.stopCountdown(killSwitch);
                 return cb();
             }
         },steps);
+        return killSwitch;
+    },
+    startSilentCountdown: function (timeInMs, steps, cb) {
+        var time = timeInMs,
+            killSwitch = Meteor.setInterval(function () {
+            time -= steps;
+            if (time < 0) {
+                Gamebook.stopCountdown(killSwitch);
+                return cb();
+            }
+        },steps);
+        return killSwitch;
     },
     stopCountdown: function(killSwitch){
         Meteor.clearInterval(killSwitch);
