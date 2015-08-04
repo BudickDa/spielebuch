@@ -1,14 +1,17 @@
-meteor-platform
-underscore
-fastclick
-jquery
+meteor - platform;
+underscore;
+fastclick;
+jquery;
 
-gfk:notifications
+notifications
 
-iron:router
+router
 
-materialize:materialize
-bootstrap3:tooltips
+materialize
+tooltips
 
-risul:chance
-mquandalle:harmony
+chance
+harmony
+
+astronomy
+

@@ -18,8 +18,11 @@
  * along with Spielebuch. If not, see <http://www.gnu.org/licenses/>.
  */
 
-objectProperties = new Mongo.Collection('objectProperties');
-
+GlobalObjectProperties = new Mongo.Collection('globalObjectProperties');
+GlobalObjectProperty = Astro.Class({
+    name: 'GlobalObjectProperty',
+    collection: GlobalObjectProperties
+});
 /**
  * Fetches or creates all the properties for the chosen object.
  *
@@ -35,7 +38,7 @@ setObjectProperties = function (objectId) {
 
 
     //test, if properties for object are already set, if not create them
-    cacheCursor = objectProperties.find({name: currentObjectName});
+    cacheCursor = globalObjectProperties.find({name: currentObjectName});
     if (cacheCursor.count() === 0) {
         $.ajax({
             url: 'https://de.wikipedia.org/w/api.php',
@@ -61,7 +64,7 @@ setObjectProperties = function (objectId) {
             };
         }).always(function () {
             //store it to our database
-            objectProperties.insert(objectProperty);
+            GlobalObjectProperty.insert(objectProperty);
             if (Meteor.isClient)
                 Session.set('objectProperty', objectProperty);
         });
@@ -88,10 +91,10 @@ function parseWikiText(json){
 
 
 if (Meteor.isServer) {
-    Meteor.publish('objectProperties', function () {
-        return objectProperties.find();
+    Meteor.publish('globalObjectProperties', function () {
+        return globalObjectProperties.find();
     });
-    objectProperties.allow({
+    globalObjectProperties.allow({
         insert: function () {
             return true;
         }
