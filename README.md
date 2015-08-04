@@ -11,11 +11,11 @@ This rule reduces the firedamage by 40 on the object/scene/story it affects.
 
 Properties are always set by rules.
 
-For more information take a look at the tutorials in `/book`.
+For more information take a look at the tutorials in [/book](book).
 
 
 # Installation
-1. (Install Meteor)[https://www.meteor.com/install]
+1. [Install Meteor](https://www.meteor.com/install)
 2. Download the last release.
 3. Unzip it and go into directory of repository with you console.
 4. Start application by typing 'meteor'
@@ -24,7 +24,7 @@ For more information take a look at the tutorials in `/book`.
 
 
 # Releases
-2015-08-04 (Alpha 0.1.0)[https://github.com/BudickDa/spielebuch/releases/tag/Alpha-0.1.0] 
+2015-08-04 [Alpha 0.1.0](https://github.com/BudickDa/spielebuch/releases/tag/Alpha-0.1.0) 
 
 
 # Dual License
