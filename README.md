@@ -40,7 +40,7 @@ And when I think about it, it is one more reason to put the UI into its own pack
 
 
 # Contribution
-This not even an alpha version. Please do not send pull request/bug reports and be patient for now.
-If this goes into beta I hopefully will have created an API that supports addons in form of other packages can be written and used in a gamebook.
-This where you can start coding your own package and hit me with bug reports, ideas, etc, in by generating issues.
+This not even an alpha version. Please do not send pull request/bug reports and be patient for now. If this goes into beta 
+I hopefully will have created an API that supports addons in form of other packages that can be used in a game book. 
+This where you can start coding your own packages and hit me with bug reports, ideas, etc, by generating issues. 
 If you want to make your own thing, just fork and go into your own direction, but please respect the GPL at all time.
