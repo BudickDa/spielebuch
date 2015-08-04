@@ -40,7 +40,7 @@ And when I think about it, it is one more reason to put the UI into its own pack
 
 
 # Contribution
-This not even an alpha version. Please do not send pull request/bug reports and be patient for now. If this goes into beta 
+This is an alpha version. Please do not send pull request/bug reports and be patient for now. If this goes into beta 
 I hopefully will have created an API that supports addons in form of other packages that can be used in a game book. 
 This where you can start coding your own packages and hit me with bug reports, ideas, etc, by generating issues. 
-If you want to make your own thing, just fork and go into your own direction, but please respect the GPL at all time.
+If you want to make your own thing, just fork and go into your own direction, but please respect the [GPL](http://www.gnu.org/licenses/gpl-3.0.en.html) at all time.
