@@ -21,30 +21,17 @@
 Gamebook = {
     //contains the playing story
     story: {},
-    startStory: function (story) {
+    startStory: function (storyname) {
+        var story = this.stories[storyname];
         if (!story) {
-            console.log(story);
-            debugMsg('Story is undefined', 'Make sure, that the parameter is a story.');
+            hardDebugMsg('Story is undefined', 'Make sure, that the parameter is a story.');
             return;
         }
         this.story = story;
-        this.story.start();
-    },
-    getStory: function (storyname) {
-        var story = this.stories[storyname];
-        if (!story) {
-            debugMsg('Story of this name is undefined', 'There is not story saved, you can view the name of the parameter in the Console.');
-            //storyname can be an unfiltered user input. Handle with care
-            console.log(storyname);
-            return;
-        }
-        return story;
-
+        return this.story.start();
     },
     //contains the created stories
     stories: {},
-    //saves player object on the client
-    localStorage: new Mongo.Collection(null),
     Effect: Effect,
     Rule: Rule,
     Story: Story,
@@ -54,37 +41,16 @@ Gamebook = {
          * if no other language is chosen, we take german.
          * @type {string}
          */
-        defaultLanguage: 'de'
+        defaultLanguage: 'de',
+        /**
+         * events that are allowed while interacting with object
+         */
+        events: ['view', 'interact', 'take']
     },
-    startUiCountdown: function (timeInMs, steps, cb) {
-        var time = timeInMs;
-        Session.set('criticalTiming', (time / timeInMs) * 100);
-        killSwitch = Meteor.setInterval(function () {
-            time -= steps;
-            Session.set('criticalTiming', (time / timeInMs) * 100);
-            if (time < 0) {
-                Session.set('criticalTiming', 0);
-                Gamebook.stopCountdown(killSwitch);
-                return cb();
-            }
-        },steps);
-        return killSwitch;
-    },
-    startSilentCountdown: function (timeInMs, steps, cb) {
-        var time = timeInMs,
-            killSwitch = Meteor.setInterval(function () {
-            time -= steps;
-            if (time < 0) {
-                Gamebook.stopCountdown(killSwitch);
-                return cb();
-            }
-        },steps);
-        return killSwitch;
-    },
-    stopCountdown: function(killSwitch){
-        Meteor.clearInterval(killSwitch);
-        Meteor.setTimeout(function(){
-            Session.set('criticalTiming', 0);
-        }, 2000);
+    helper: {
+        startUiCountdown: startUiCountdown,
+        startSilentCountdown: startSilentCountdown,
+        stopCountdown: stopCountdown
     }
+
 };

@@ -60,8 +60,8 @@ Template.page.helpers({
     criticalTiming: function () {
         return Session.get('criticalTiming');
     },
-    actionText: function () {
-        return Session.get('actionText');
+    eventText: function () {
+        return Session.get('eventText');
     },
     mainText: function () {
         return Session.get('mainText');
@@ -115,10 +115,10 @@ Template.page.events({
 
             if (currentObject.checkOverride(eventId)) {
                 override = currentObject.overrrides[eventId];
-                Session.set('actionText', override);
+                Session.set('eventText', override);
             }
             else {
-                Session.set('actionText', ACTION.de[event.currentTarget.id]);
+                Session.set('eventText', ACTION.de[event.currentTarget.id]);
             }
             if(currentObject.checkEvent(eventId)) {
                 currentObject.fireEvent(eventId);

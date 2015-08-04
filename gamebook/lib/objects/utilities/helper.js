@@ -28,7 +28,7 @@ createKeywordText = function (sceneObject) {
         needle = new RegExp('\\[' + keyword + '\\]', 'g');
 
     return text.replace(needle, createKeywordAnker(sceneObject.sceneObject));
-}
+};
 
 
 /**
@@ -80,7 +80,7 @@ createStats = function (rules) {
         }
     });
     return stats;
-}
+};
 
 /**
  *
@@ -100,7 +100,7 @@ getStats = function (self, name) {
         });
     });
     return createStats(rules);
-}
+};
 
 /**
  * Creates a damage object
@@ -120,35 +120,106 @@ createDamageObject = function (self, methodsEffects, helperObject, targetEffect)
             helperObjectDamage = helperObject.getStats(effect)[effect];
         else
             helperObjectDamage = undefined;
-        if(selfDamage)
+        if (selfDamage)
             amount += parseInt(selfDamage);
-        if(helperObjectDamage)
+        if (helperObjectDamage)
             amount += parseInt(helperObjectDamage);
     });
 
     amount = amount * -1;
     console.log(amount.toString());
     return new Effect('damage', [new Rule(targetEffect, amount.toString())])
-}
+};
 
 
-statsToRuleArray = function(statsAsObject){
+statsToRuleArray = function (statsAsObject) {
     var statsAsArray = [];
     _.map(statsAsObject, function (value, key) {
         statsAsArray.push({key: key, value: value});
     });
     return statsAsArray;
-}
+};
 
-deleteAbsoluteValues = function(rules){
-    if(rules===undefined)
+deleteAbsoluteValues = function (rules) {
+    if (rules === undefined)
         return [];
-    if(rules.length===0)
+    if (rules.length === 0)
         return [];
-    _.map(rules, function(rule){
-        if ( !(typeof rule.value === 'string' || rule.value instanceof String)) { // all the absolute values will set '0'
+    _.map(rules, function (rule) {
+        if (!(typeof rule.value === 'string' || rule.value instanceof String)) { // all the absolute values will set '0'
             rule.value = '0';
         }
     });
     return rules;
-}
+};
+
+
+/**
+ * Helper for timing
+ */
+
+/**
+ * Starts a countdown that publishes its value via a session variable
+ * @param timeInMs: Lenght of the countdown in ms
+ * @param steps: Duration of each iteration in ms
+ * @param cb: Function that is executed when countdown reached zero.
+ * @returns {number|*}: Return an object, that can be used to stop an countdown with the function stopCountdown
+ */
+startUiCountdown = function (timeInMs, steps, cb) {
+    var time = timeInMs;
+    Session.set('criticalTiming', (time / timeInMs) * 100);
+    var killSwitch = Meteor.setInterval(function () {
+        time -= steps;
+        Session.set('criticalTiming', (time / timeInMs) * 100);
+        if (time < 0) {
+            Session.set('criticalTiming', 0);
+            Gamebook.stopCountdown(killSwitch);
+            return cb();
+        }
+    }, steps);
+    return killSwitch;
+};
+
+/**
+ * Starts a countdown
+ * @param timeInMs: Lenght of the countdown in ms
+ * @param steps: Duration of each iteration in ms
+ * @param cb: Function that is executed when countdown reached zero.
+ * @returns {number|*}: Return an object, that can be used to stop an countdown with the function stopCountdown
+ */
+startSilentCountdown = function (timeInMs, steps, cb) {
+    var time = timeInMs,
+        killSwitch = Meteor.setInterval(function () {
+            time -= steps;
+            if (time < 0) {
+                Gamebook.stopCountdown(killSwitch);
+                return cb();
+            }
+        }, steps);
+    return killSwitch;
+};
+
+/**
+ * Stops a countdown.
+ * @param killSwitch: The var that was returned by the function, that started the countdown.
+ */
+stopCountdown = function (killSwitch) {
+    Meteor.clearInterval(killSwitch);
+    Meteor.setTimeout(function () {
+        Session.set('criticalTiming', 0);
+    }, 2000);
+};
+
+
+/**
+ * Check if event exists
+ * @param event: event's name as string
+ * @returns {boolean}: if event was configured returns true, if not false.
+ */
+validateEvent = function (event) {
+    if (_.indexOf(Gamebook.config.events, event) === -1) {
+        debugMsg('This event does not exist', 'The event ' + event + ' is not a part of the da vinci system.');
+        return false;
+    }
+    return true;
+};

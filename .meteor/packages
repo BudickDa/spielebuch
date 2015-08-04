@@ -1,17 +1,18 @@
 meteor - platform;
+accounts - password;
 underscore;
 fastclick;
 jquery;
 
-notifications
+notifications;
 
-router
+router;
 
-materialize
-tooltips
+materialize;
+tooltips;
 
-chance
-harmony
+chance;
+harmony;
 
-astronomy
+astronomy;
 

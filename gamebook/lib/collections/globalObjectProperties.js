@@ -21,7 +21,12 @@
 GlobalObjectProperties = new Mongo.Collection('globalObjectProperties');
 GlobalObjectProperty = Astro.Class({
     name: 'GlobalObjectProperty',
-    collection: GlobalObjectProperties
+    collection: GlobalObjectProperties,
+    fields: {
+        name: 'string',
+        wikiText: 'string',
+        effects: 'array'
+    }
 });
 /**
  * Fetches or creates all the properties for the chosen object.

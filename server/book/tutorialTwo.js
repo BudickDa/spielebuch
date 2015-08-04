@@ -192,7 +192,7 @@ var button = sceneThree.createKeyword('Vor dir auf einer Säule ist ein [Knopf].
  */
 button.addEvents(['left', 'right'], function () {
     storyTwo.nextScene();
-}, 'Du drückst den Knopf, du drückst ihn für die Ehre!')
+}, 'Du drückst den Knopf, du drückst ihn für die Ehre!');
 
 sceneThree.updateText();
 

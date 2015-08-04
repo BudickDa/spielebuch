@@ -26,7 +26,7 @@
 /**
  * Step 1: Create a Story object.
  */
-var storyOne = new Gamebook.Story();
+storyOne = new Gamebook.Story();
 
 
 /**
@@ -104,12 +104,6 @@ schwert02.addEvent('left', function(){
 
 storyOne.addScene(sceneTwo);
 
-
-/**
- * Step 7: Start story
- * Add story to Gamebook.stories, that makes it globally available.
- */
-Gamebook.stories.storyOne = storyOne;
 
 /**
  * this application contains multiple stories. These stories are chosen by the URL in the router (/gamebook/lib/router.js)
