@@ -1,13 +1,6 @@
 # Spielebuch
 A Meteor package that makes writing interactive books very easy.
 
-# Todos
-- Put the framework into a package (waiting for the next version of meteor, which will support ES6)
-- finish tutorial two
-- finish the backpack
-- finish UI
-- change the control view into something usable (this daVinci-bullshit will be thrown out asap)
-
 # Core concepts
 Interactive gameobjects are created while writing text. The author can create rules and effects and add those to gameobjects, scenes or the whole story.
 Effects are a set of rules. A rule is a key-value-pair.
@@ -37,6 +30,7 @@ For using this package in a proprietary or closed source application please cont
 
 
 # Todo and ideas after project:
+- Put the framework into a package (waiting for the next version of meteor, which will support ES6)
 - a imo better system than daVinci: interactions should be context aware:
     - in backpack: 
         - interact
