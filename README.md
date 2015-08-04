@@ -16,7 +16,7 @@ For more information take a look at the tutorials in [/book](book).
 
 # Installation
 1. [Install Meteor](https://www.meteor.com/install)
-2. Download the last release.
+2. [Download](https://github.com/BudickDa/spielebuch/archive/Alpha-0.1.0.zip) the last release.
 3. Unzip it and go into directory of repository with you console.
 4. Start application by typing 'meteor'
 5. Visit localhost:3000 with Chrome or another modern browser.
