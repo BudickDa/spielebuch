@@ -26,7 +26,7 @@
 /**
  * Step 1: Create a Story object.
  */
-storyOne = new Gamebook.Story();
+storyOne = new GamebookBackend.Story();
 
 
 /**
@@ -35,7 +35,7 @@ storyOne = new Gamebook.Story();
  * Scenes should not be global because they will be added to the story,
  * thus 'sceneOne' is only temporally used
  */
-var sceneOne = new Gamebook.Scene();
+var sceneOne = new GamebookBackend.Scene();
 
 /**
  * Step 3: Adding some content
@@ -73,8 +73,8 @@ var schwert01 = sceneOne.createKeyword('Auf diesem liegt ein silbrig glänzendes
  *
  * for now we only add empty effects instead of real effects with rules. An effect without a rule does nothing
  */
-var rotten = new Gamebook.Effect('verrottet', []);
-var old = new Gamebook.Effect('alt', []);
+var rotten = new GamebookBackend.Effect('verrottet', []);
+var old = new GamebookBackend.Effect('alt', []);
 holztisch.addEffect(rotten);
 holztisch.addEffect(old);
 
@@ -94,7 +94,7 @@ storyOne.addScene(sceneOne);
 /**
  * Step 6: Let's add another scene where we change to
  */
-var sceneTwo = new Gamebook.Scene('rainy');
+var sceneTwo = new GamebookBackend.Scene('rainy');
 sceneTwo.addText('Du betrachtest den Tisch und denkst über die Möglichkeiten nach, die dieses Spiel bietet. ');
 var schwert02  = sceneTwo.createKeyword('Dein Blick fällt auf das [Schwert] das vollkommen nutzlos erscheint. ');
 schwert02.addEvent('left', function(){
@@ -106,5 +106,5 @@ storyOne.addScene(sceneTwo);
 
 
 /**
- * this application contains multiple stories. These stories are chosen by the URL in the router (/gamebook/lib/router.js)
+ * this application contains multiple stories. These stories are chosen by the URL in the router (/GamebookBackend/lib/router.js)
  */

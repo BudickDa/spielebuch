@@ -23,9 +23,9 @@
  * Tutorial 2: Effects and rules
  * First we decide, that the weather is rainy.
  */
-var storyTwo = new Gamebook.Story();
+var storyTwo = new GamebookBackend.Story();
 
-var sceneOne = new Gamebook.Scene('rainy');
+var sceneOne = new GamebookBackend.Scene('rainy');
 
 /**
  * We share the waether with reader
@@ -43,15 +43,15 @@ sceneOne.howIsTheWeather();
 /**
  * these rules are manipulators, they change the values.
  */
-var lowerHP = new Gamebook.Rule('Stabilität', '-15');
-var lowerDamage = new Gamebook.Rule('Nahkampfschaden', '-20');
-var swordDamage = new Gamebook.Rule('Nahkampfschaden', '+60');
+var lowerHP = new GamebookBackend.Rule('Stabilität', '-15');
+var lowerDamage = new GamebookBackend.Rule('Nahkampfschaden', '-20');
+var swordDamage = new GamebookBackend.Rule('Nahkampfschaden', '+60');
 
 /**
  * we create the effects and add the rules
  */
-var rotten = new Gamebook.Effect('verrottet', [lowerHP, lowerDamage]);
-var old = new Gamebook.Effect('alt', [lowerHP]);
+var rotten = new GamebookBackend.Effect('verrottet', [lowerHP, lowerDamage]);
+var old = new GamebookBackend.Effect('alt', [lowerHP]);
 
 /**
  * we fill the scene
@@ -65,7 +65,7 @@ var schwert = sceneOne.createKeyword('An einem Baum lehnt ein silbrig glänzende
  * fragile is a global rule from /book/rules.js
  * Effects with the name default are shown as the default values of an object
  */
-holztisch.addEffect(new Gamebook.Effect('default', [fragile]));
+holztisch.addEffect(new GamebookBackend.Effect('default', [fragile]));
 /**
  * and the created effects
  */
@@ -75,7 +75,7 @@ holztisch.addEffect(old);
 /**
  * the same with the sword
  */
-schwert.addEffect(new Gamebook.Effect('default', [swordDamage, iron]));
+schwert.addEffect(new GamebookBackend.Effect('default', [swordDamage, iron]));
 
 /**
  * oh no... the weather is rainy... that means fire does less damage.
@@ -85,7 +85,7 @@ schwert.addEffect(new Gamebook.Effect('default', [swordDamage, iron]));
  *
  * Story effects are overridden by scene effects and scene effects are overwridden by object effects
  */
-var rainy = new Gamebook.Effect('rainy', [fireDamageReduced]);
+var rainy = new GamebookBackend.Effect('rainy', [fireDamageReduced]);
 sceneOne.addEffect(rainy);
 
 
@@ -97,7 +97,7 @@ sceneOne.addEffect(rainy);
  * the player is human, so we add an effect with rule humanHealth that has been defined in /book/rules.js
  * and humanFistDamage to deal some damage with bare hands
  */
-var human = new Gamebook.Effect('Mensch', [humanHealth, humanFistDamage]);
+var human = new GamebookBackend.Effect('Mensch', [humanHealth, humanFistDamage]);
 
 storyTwo.createNewPlayer(new Player([human]));
 
@@ -130,11 +130,11 @@ schwert.addEvents(['left', 'right'], function () {
  */
 
 holztisch.addEvent('left', function () {
-    var damageEffect = Gamebook.story.player.attackLeft(['Nahkampfschaden'], 'Gesundheit'); //the var is important, because the damageEffect should exist in the scope of the function only.
+    var damageEffect = GamebookBackend.story.player.attackLeft(['Nahkampfschaden'], 'Gesundheit'); //the var is important, because the damageEffect should exist in the scope of the function only.
     holztisch.addEffect(damageEffect);
 }, 'Du schlägst auf den Tisch');
 holztisch.addEvent('right', function () {
-    var damageEffect = Gamebook.story.player.attackRight(['Nahkampfschaden'], 'Gesundheit');
+    var damageEffect = GamebookBackend.story.player.attackRight(['Nahkampfschaden'], 'Gesundheit');
     holztisch.addEffect(damageEffect);
 }, 'Du schlägst auf den Tisch');
 
@@ -161,7 +161,7 @@ holztisch.afterDestruction = function () {
 /**
  * we create the next scene. This time we want sunny weather.
  */
-var sceneTwo = new Gamebook.Scene('sunny');
+var sceneTwo = new GamebookBackend.Scene('sunny');
 sceneTwo.addText('Die Welt um dich herum explodiert, also du wieder zu dir kommst, ist dein Blick verschwommen. Langsam stehst du auf. Deine Beine sind noch wackelig. Die Luft um dich herum riecht nach Schwefel. Du hörst Schritte...');
 var etwas = sceneTwo.createKeyword('Vor dir im Nebel ist [etwas]...');
 etwas.addEvent('center', function () {
@@ -169,10 +169,10 @@ etwas.addEvent('center', function () {
 }, 'Du starrst und starrst, aber kannst nichts erkennen.');
 etwas.addEvent('bottom', function () {
     /**
-     * here we have to use the Gamebook object to go to the next scene.
+     * here we have to use the GamebookBackend object to go to the next scene.
      * but we do this afte a countdown to make things more exiting
      */
-    Gamebook.startUiCountdown(3000, 300, function(){
+    GamebookBackend.startUiCountdown(3000, 300, function () {
         storyTwo.nextScene();
     });
 
@@ -180,7 +180,7 @@ etwas.addEvent('bottom', function () {
 }, 'Du gehst darauf zu.');
 
 
-var sceneThree = new Gamebook.Scene();
+var sceneThree = new GamebookBackend.Scene();
 sceneThree.addText("Stille, die Luft hat sich geklärt. Du stehst auf einer Wiese. ");
 sceneThree.howIsTheWeather(); //we tell the weather, just because we can.
 /**
@@ -200,7 +200,7 @@ sceneThree.updateText();
 /**
  * last final scene, there will be an npc!
  */
-var sceneFour = new Gamebook.Scene();
+var sceneFour = new GamebookBackend.Scene();
 sceneFour.addText('Du stehst in einer Arena, um dich herum das tösende gebrüll der Massen.');
 var fighter = sceneFour.createKeyword('Ein [Kämpfer] kommt auf dich zugestürmt, was machst du nun? ');
 fighter.addEffect(human);
@@ -214,7 +214,7 @@ fighter.addEffect(human);
 
 var killSwitch;
 sceneFour.onStart = function () {
-    killSwitch = Gamebook.startUiCountdown(10000, 200, function () {
+    killSwitch = GamebookBackend.startUiCountdown(10000, 200, function () {
         /**
          * after the countdown, the fighter will kick our ass
          */
@@ -240,7 +240,7 @@ fighter.addEvent('right', function () {
  * and we start a silent timer, to send a message of celebration. The user has won.
  */
 fighter.afterDestruction = function () {
-    Gamebook.stopCountdown(killSwitch);
+    GamebookBackend.stopCountdown(killSwitch);
     sceneFour.overrideText('Glückwunsch, Du hast das Abenteuer bestanden.');
     sceneFour.updateText();
 };
@@ -266,4 +266,4 @@ storyTwo.addScene(sceneOne);
 storyTwo.addScene(sceneTwo);
 storyTwo.addScene(sceneThree);
 storyTwo.addScene(sceneFour);
-Gamebook.stories.storyTwo = storyTwo;
+GamebookBackend.stories.storyTwo = storyTwo;

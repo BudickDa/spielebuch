@@ -1,8 +1,8 @@
 meteor - platform;
-accounts - password;
 underscore;
 fastclick;
 jquery;
+accounts - password;
 
 notifications;
 
@@ -15,4 +15,5 @@ chance;
 harmony;
 
 astronomy;
+astronomy - validators;
 

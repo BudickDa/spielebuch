@@ -30,23 +30,6 @@ Gamebook = {
         this.story = story;
         return this.story.start();
     },
-    //contains the created stories
-    stories: {},
-    Effect: Effect,
-    Rule: Rule,
-    Story: Story,
-    Scene: Scene,
-    config: {
-        /**
-         * if no other language is chosen, we take german.
-         * @type {string}
-         */
-        defaultLanguage: 'de',
-        /**
-         * events that are allowed while interacting with object
-         */
-        events: ['view', 'interact', 'take']
-    },
     helper: {
         startUiCountdown: startUiCountdown,
         startSilentCountdown: startSilentCountdown,

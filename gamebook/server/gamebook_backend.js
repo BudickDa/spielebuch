@@ -18,24 +18,22 @@
  * along with Spielebuch. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-/**
- * Public
- * An Object the player can interact with
- */
-export class SceneObject {
-    constructor(name) {
+GamebookBackend = {
+    stories: {},
+    Effect: Effect,
+    Rule: Rule,
+    Story: Story,
+    Scene: Scene,
+    config: {
         /**
-         * Creating a persisted scene object (pso)
+         * if no other language is chosen, we take german.
+         * @type {string}
          */
-        var pso = new PersistedSceneObject();
-        pso.set('sceneObject.name', name);
-        pso.save(function (err) {
-            if (err) {
-                return debugMsg('Error persisting SceneObject', 'Could not insert obejct ' + name + ': ' + err);
-            }
-        });
-        return pso;
-    }
-}
+        defaultLanguage: 'de',
+        /**
+         * events that are allowed while interacting with object
+         */
+        events: ['view', 'interact', 'take']
+    },
+
+};

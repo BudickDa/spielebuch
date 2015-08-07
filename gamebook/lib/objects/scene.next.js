@@ -28,26 +28,7 @@ export class Scene extends BaseObject {
     }
 
 
-    updateWeather(weather) {
-        this.environment.setWeather(weather);
-    }
 
-
-    /**
-     * add description of the weather to the scene text
-     * @param language (optional) language of the string. If not set, we take the default language.
-     */
-    howIsTheWeather(language) {
-        if (!language)
-            language = Gamebook.config.defaultLanguage; //no language param, take default language
-        var weather = this.environment.getWeather();
-        if (weather.text) {
-            if (weather.text[language]) {
-                this.text += weather.text[language];
-            }
-        }
-        return;
-    }
 
 
     /**
