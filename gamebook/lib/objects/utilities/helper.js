@@ -26,9 +26,8 @@ createKeywordText = function (sceneObject) {
     var text = sceneObject.text,
         keyword = sceneObject.sceneObject.name,
         needle = new RegExp('\\[' + keyword + '\\]', 'g');
-
     return text.replace(needle, createKeywordAnker(sceneObject.sceneObject));
-}
+};
 
 
 /**
@@ -80,7 +79,7 @@ createStats = function (rules) {
         }
     });
     return stats;
-}
+};
 
 /**
  *
@@ -88,7 +87,7 @@ createStats = function (rules) {
  * @param name optional, if not set, returns all the effects. If set, returns only the stats of the chosen one
  * @returns {{}}
  */
-getStats = function (self, name) {
+getStatsHelper = function (self, name) {
     var rules = [], rule, stat;
     _.each(self.effects, function (effect) {
         stat = effect.getStats();
@@ -100,7 +99,7 @@ getStats = function (self, name) {
         });
     });
     return createStats(rules);
-}
+};
 
 /**
  * Creates a damage object
@@ -129,7 +128,7 @@ createDamageObject = function (self, methodsEffects, helperObject, targetEffect)
     amount = amount * -1;
     console.log(amount.toString());
     return new Effect('damage', [new Rule(targetEffect, amount.toString())])
-}
+};
 
 
 statsToRuleArray = function(statsAsObject){
@@ -138,7 +137,7 @@ statsToRuleArray = function(statsAsObject){
         statsAsArray.push({key: key, value: value});
     });
     return statsAsArray;
-}
+};
 
 deleteAbsoluteValues = function(rules){
     if(rules===undefined)
@@ -151,4 +150,4 @@ deleteAbsoluteValues = function(rules){
         }
     });
     return rules;
-}
+};

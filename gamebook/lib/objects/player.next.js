@@ -132,24 +132,28 @@ export class Player {
     }
 
     addEffect(effect) {
-        this.effects.push(effect);
-        this.effectsDep.changed();
+        var self = this;
+        self.beforeHook(function(){
+            self.effects.push(effect);
+            self.effectsDep.changed();
+            return self.afterHook();
+        })
     }
 
     getStats(name) {
         var ruleArray, self = this, handRules = [];
-        ruleArray = statsToRuleArray(getStats(self, name));
-        if(self.leftHand !== -1){
+        ruleArray = statsToRuleArray(getStatsHelper(self, name));
+        /*if(self.leftHand !== -1){
             handRules = handRules.concat(statsToRuleArray(self.leftHand.getStats(name)));
         }
         if(self.rightHand !== -1){
             handRules = handRules.concat(statsToRuleArray(self.rightHand.getStats(name)));
-        }
+        }*/
         /**
          * we have to get rid of the absolute effects of the items we carry.
          * Or else the player would have the health of a sword. And this makes no sense.
          */
-        handRules = deleteAbsoluteValues(handRules);
+        //handRules = deleteAbsoluteValues(handRules);
 
         //ruleArray = ruleArray.concat(handRules); //this is a problem, if this value is computed in, all items count double
 

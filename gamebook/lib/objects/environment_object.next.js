@@ -47,7 +47,7 @@ var getWeatherFromConfig = function(chosenWeather){
         return chosenWeather;
     else
         return false;
-}
+};
 
 /**
  * Private
@@ -71,7 +71,7 @@ var validateWeather = function (tmpWeather) {
         return false;
     }
     return true;
-}
+};
 
 
 export class Environment {
@@ -90,8 +90,8 @@ export class Environment {
      * @returns {*}: return the chosen weather of the Environment. If invalid or no weather throw error and return false.
      */
     getWeather() {
-        if(this.weather===false)
-            console.error('You are using an invalid weather.')
+        if(!this.weather)
+            hardDebugMsg('You are using an invalid weather.', 'There no weather, not even a default one. That is messed up.');
         return this.weather;
     }
 

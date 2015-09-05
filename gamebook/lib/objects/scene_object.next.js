@@ -28,13 +28,13 @@ var validateEvent = function (event) {
         return false;
     }
     return true;
-}
+};
 
 /**
  * Public
  * An Object the player can interact with
  */
-export class SceneObject extends BaseObject {
+export class SceneObject {
     constructor(name) {
         this._id = chance.guid();
         this.name = name;
@@ -135,7 +135,7 @@ export class SceneObject extends BaseObject {
 
     getStats(name) {
         this.effectsDep.depend();
-        return getStats(this, name);
+        return getStatsHelper(this, name);
     }
 
     beforeHook(cb) {

@@ -58,6 +58,9 @@ Gamebook = {
     },
     startUiCountdown: function (timeInMs, steps, cb) {
         var time = timeInMs;
+        if(Meteor.isServer){
+            return;
+        }
         Session.set('criticalTiming', (time / timeInMs) * 100);
         killSwitch = Meteor.setInterval(function () {
             time -= steps;
@@ -71,6 +74,9 @@ Gamebook = {
         return killSwitch;
     },
     startSilentCountdown: function (timeInMs, steps, cb) {
+        if(Meteor.isServer){
+            return;
+        }
         var time = timeInMs,
             killSwitch = Meteor.setInterval(function () {
             time -= steps;
@@ -82,6 +88,9 @@ Gamebook = {
         return killSwitch;
     },
     stopCountdown: function(killSwitch){
+        if(Meteor.isServer){
+            return;
+        }
         Meteor.clearInterval(killSwitch);
         Meteor.setTimeout(function(){
             Session.set('criticalTiming', 0);

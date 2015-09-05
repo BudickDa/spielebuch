@@ -18,7 +18,7 @@
  * along with Spielebuch. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export class Scene extends BaseObject {
+export class Scene {
     constructor(weather) {
         this.environment = new Environment(weather);
         this.sceneObjects = [];
@@ -46,7 +46,6 @@ export class Scene extends BaseObject {
                 this.text += weather.text[language];
             }
         }
-        return;
     }
 
 
@@ -81,7 +80,11 @@ export class Scene extends BaseObject {
      */
     createKeyword(sceneObjectText) {
         var keywordText = sceneObjectText, re = /[^[\]]+(?=])/, keyword, sceneObject;
-        keyword = re.exec(keywordText)[0];
+        try{
+            keyword = re.exec(keywordText)[0];
+        }catch(e){
+            hardDebugMsg('No keyword marked', 'An exception occured, did you forget to mark a keyword with braces (e.g. [Keyword])? Here is the text of the exception: '+ e);
+        }
         sceneObject = new SceneObject(keyword);
         this.sceneObjects.push(
             {
@@ -141,6 +144,6 @@ export class Scene extends BaseObject {
     }
 
     getStats(name) {
-        return getStats(this, name);
+        return getStatsHelper(this, name);
     }
 }

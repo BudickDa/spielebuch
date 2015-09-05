@@ -18,7 +18,7 @@
  * along with Spielebuch. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export class Story extends BaseObject {
+export class Story  {
     /**
      * this.scenes holds all the scenes of the story in the order of their creation
      * this.rules holds all the rules oft the story
@@ -32,11 +32,12 @@ export class Story extends BaseObject {
     }
 
     addScene(scene) {
-        return this.scenes.push(scene);
+        this.scenes.push(scene);
+        return this.scenes.length - 1;
     }
 
-    createNewPlayer(player){
-        if(this.player!==-1){
+    createNewPlayer(player) {
+        if (this.player !== -1) {
             debugMsg('Overriding old player', 'This story already had a player. You killed him and created a new one. Are you sure, you know what you are doing?')
         }
         this.player = player;
@@ -53,10 +54,10 @@ export class Story extends BaseObject {
         if (index < 0)
             return hardDebugMsg('The index is invalid', 'The index must be greater or equal 0');
         this.sceneHistory.push(index);
-        if(typeof this.scenes[index].onStart=== "function"){
+        if (typeof this.scenes[index].onStart === "function") {
             this.scenes[index].onStart();
         }
-        return this.scenes[index].updateText();
+        this.scenes[index].updateText();
     }
 
     /**
@@ -78,7 +79,7 @@ export class Story extends BaseObject {
         if (index > this.scenes.length) {
             return debugMsg('Next scene does not exist in story', 'lastScene was actually the last scene, there is no scene after this one.');
         }
-        return this.startScene(index);
+        this.startScene(index);
     }
 
     /**
@@ -127,13 +128,15 @@ export class Story extends BaseObject {
     getSceneObject(_id) {
         var currentScene = this.currentScene(),
             sceneObject = currentScene.findSceneObject(_id);
-        if (sceneObject === -1)
-            return debugMsg('This sceneObject does not exist', 'The sceneObject with the id: ' + _id + ' does not exist.');
+        if (sceneObject === -1) {
+            debugMsg('This sceneObject does not exist', 'The sceneObject with the id: ' + _id + ' does not exist.');
+            return;
+        }
         return sceneObject;
     }
 
     getStats(name) {
-        return getStats(this, name);
+        return getStatsHelper(this, name);
     }
 
 }

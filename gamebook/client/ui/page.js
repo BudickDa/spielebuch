@@ -68,7 +68,10 @@ Template.page.helpers({
     },
     statusText: function () {
         var stats = [], statsAsObject;
-        if (Gamebook && Gamebook.story && Gamebook.story.player) {
+        if (Gamebook && Gamebook.story) {
+            if(Gamebook.story.player===-1){
+                return stats;
+            }
             statsAsObject = Gamebook.story.player.getStats();
             if (statsAsObject) {
                 _.map(statsAsObject, function (value, key) {
